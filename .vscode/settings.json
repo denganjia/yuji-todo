@@ -1,0 +1,12 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cSpell.words": [
+    "asider",
+    "Fira",
+    "Lato",
+    "pinia",
+    "sider",
+    "vfonts"
+  ],
+}
