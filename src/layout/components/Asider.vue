@@ -1,6 +1,6 @@
 <template>
 	<div class="asider-content">
-		<MenuVue />
+		<MenuVue ref="menuRef" />
 		<div class="resize" @mousedown="mouseDown"></div>
 		<div class="footer">
 			<div class="footer_btn" v-if="!showAdd">
@@ -27,24 +27,30 @@
 				@blur="inputBlur"
 				v-model:value="inputValue"
 				@keyup.enter="addGroupOrList"
+				ref="inputRef"
 			></n-input>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { Group, Plus } from "@icon-park/vue-next";
-import { useMessage } from "naive-ui";
+import { useMessage, InputInst } from "naive-ui";
+import { addListApi, addGroupApi } from "@/apis";
 import MenuVue from "./Menu.vue";
+import { APIBaseResult } from "../../apis/types";
 
 const message = useMessage();
-
+const inputRef = ref<InputInst>();
 const currentAdd = ref<"list" | "group">("list");
 //添加 列表/组
 const add = (tag: "list" | "group") => {
 	showAdd.value = true;
 	currentAdd.value = tag;
+	nextTick(() => {
+		inputRef.value?.focus();
+	});
 };
 // 底部输入框
 const showAdd = ref(false);
@@ -52,14 +58,31 @@ const inputValue = ref("");
 const inputBlur = () => {
 	showAdd.value = false;
 };
+
+// 菜单ref
+const menuRef = ref();
 // 添加列表名或组名
-const addGroupOrList = () => {
+const addGroupOrList = async () => {
 	if (inputValue.value.length > 0) {
-		message.success("添加成功");
+		let result: APIBaseResult | null;
+		const form = { name: inputValue.value };
+		if (currentAdd.value === "list") {
+			result = await addListApi(form);
+		} else {
+			result = await addGroupApi(form);
+		}
+		const { code, msg } = result;
+		if (code === 200) {
+			message.success("添加成功");
+			menuRef.value.joinMenu();
+		} else {
+			message.error(msg);
+		}
 	}
 	inputValue.value = "";
 	showAdd.value = false;
 };
+
 // 侧边栏拖动
 const emits = defineEmits<{ (e: "resize", val: number): void }>();
 const mouseMove = (e: MouseEvent) => {

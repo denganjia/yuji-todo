@@ -20,7 +20,7 @@ axios.defaults.withCredentials = true;
 // axios.defaults.withCredentials = false;
 
 const serves = axios.create({
-	timeout: 5000,
+	timeout: 10000,
 	method: "get",
 	headers: {
 		"Content-Type": "application/json",
@@ -45,7 +45,7 @@ serves.interceptors.response.use(
 			if (response.status === 403) {
 				window.$message.error("未登录或登录信息失效！");
 			} else {
-				window.$message.error(response.data.message.join("."));
+				window.$message.error(response.data.message.join(""));
 			}
 		} else {
 			window.$message.error("请求超时");

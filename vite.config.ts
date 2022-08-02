@@ -39,7 +39,7 @@ export default defineConfig({
 		port: pkg.env.VITE_DEV_SERVER_PORT,
 		proxy: {
 			"/api": {
-				target: "http://129.0.0.1:8899",
+				target: "http://127.0.0.1:8899",
 				changeOrigin: true,
 				// rewrite: path => path.replace(/^\/api/, ""),
 			},

@@ -36,10 +36,10 @@ async function createWindow() {
 	win = new BrowserWindow({
 		title: "Main window",
 		icon: join(ROOT_PATH.public, "favicon.ico"),
-		width: 1000,
-		height: 600,
-		minHeight: 600,
-		minWidth: 800,
+		width: 927,
+		height: 573,
+		minHeight: 573,
+		minWidth: 927,
 		webPreferences: {
 			// Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
 			// Consider using contextBridge.exposeInMainWorld
@@ -47,7 +47,7 @@ async function createWindow() {
 			nodeIntegration: true,
 			contextIsolation: false,
 			devTools: true,
-			spellcheck: false,	
+			spellcheck: false,
 		},
 		frame: false,
 	});

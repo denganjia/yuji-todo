@@ -23,14 +23,43 @@ export namespace User {
 		name: string;
 		avatar: string;
 		email: string;
+		createTime: string;
+		device: [string];
+		id: string;
 	};
 }
 
-export namespace Todos {
-	type Todo = {};
+export namespace ToDos {
+	type Todo = {
+		title: string;
+		desc?: string;
+		finished: boolean;
+		endTime: string;
+	};
 }
 
-export type Menu = {
-	type: "folder";
-	_id: string;
-};
+export namespace Menus {
+	type AddList = {
+		name: string;
+	};
+	type AddGroup = AddList;
+
+	type MenuTree = {
+		groupId: null | string;
+		id: string;
+		img: null | string;
+		name: string;
+		type: "itemOutside" | "itemInside" | "folder";
+	}[];
+
+	type RemoveList = {
+		id: string;
+	};
+	type RemoveGroup = RemoveList;
+
+	type MoveListOutGroup = {
+		listId: string;
+		groupId: string;
+	};
+	type MoveListInGroup = MoveListOutGroup;
+}
