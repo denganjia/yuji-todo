@@ -11,7 +11,7 @@
 			</n-input>
 			<div class="no-drag header-action">
 				<n-space :size="5" align="center" :wrap-item="false">
-					<n-dropdown trigger="click">
+					<n-dropdown trigger="hover" :options="option" :show-arrow="true" @select="select">
 						<n-avatar :size="30" round src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"> </n-avatar>
 					</n-dropdown>
 					<n-button quaternary size="small">
@@ -70,8 +70,26 @@
 </template>
 
 <script setup lang="ts">
-import { Square, Copy, Search, SettingTwo, Close, Minus } from "@icon-park/vue-next";
+import { Square, Copy, Search, SettingTwo, Close, Minus, Logout } from "@icon-park/vue-next";
+import { DropdownOption } from "naive-ui";
 import { ref } from "vue";
+import { renderIcon } from "@/utils";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
+import { logoutApi } from "@/apis";
+
+const userStore = useUserStore();
+const router = useRouter();
+//头像下拉菜单
+const option: DropdownOption[] = [{ label: "注销登录", key: "logout", icon: renderIcon(Logout) }];
+// 下拉选择
+const select = (key: string) => {
+	if (key === "logout") {
+		logoutApi();
+		router.push("/login");
+		userStore.logout();
+	}
+};
 // 窗口事件处理
 const { ipcRenderer } = require("electron");
 const handleWindow = (event: "close" | "minimize" | "maximize") => {

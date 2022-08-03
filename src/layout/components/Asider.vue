@@ -14,7 +14,7 @@
 					<template #trigger>
 						<n-button quaternary @click="add('group')">
 							<template #icon>
-								<n-icon> <Group></Group></n-icon>
+								<n-icon> <CategoryManagement></CategoryManagement></n-icon>
 							</template>
 						</n-button>
 					</template>
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from "vue";
-import { Group, Plus } from "@icon-park/vue-next";
+import { CategoryManagement, Plus } from "@icon-park/vue-next";
 import { useMessage, InputInst } from "naive-ui";
 import { addListApi, addGroupApi } from "@/apis";
 import MenuVue from "./Menu.vue";
@@ -106,7 +106,7 @@ const mouseDown = () => {
 	height: calc(100vh - 60px);
 	position: relative;
 	box-sizing: border-box;
-	padding-bottom: 40px;
+	padding: 2px 2px 40px;
 	.resize {
 		position: absolute;
 		height: 100%;

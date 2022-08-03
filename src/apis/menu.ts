@@ -1,4 +1,4 @@
-import { GET, POST } from "./request";
+import { GET, POST, PUT } from "./request";
 import { Menus } from "./types";
 
 /**
@@ -23,4 +23,8 @@ export function addListApi(data: Menus.AddList) {
  */
 export function addGroupApi(data: Menus.AddGroup) {
 	return POST({ url: "/menu/add-group", data });
+}
+
+export function moveListApi(data: Menus.MoveList) {
+	return PUT({ url: "/menu/move-list", data });
 }

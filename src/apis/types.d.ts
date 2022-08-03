@@ -45,7 +45,7 @@ export namespace Menus {
 	type AddGroup = AddList;
 
 	type MenuTree = {
-		groupId: null | string;
+		groupID: null | string;
 		id: string;
 		img: null | string;
 		name: string;
@@ -57,9 +57,8 @@ export namespace Menus {
 	};
 	type RemoveGroup = RemoveList;
 
-	type MoveListOutGroup = {
-		listId: string;
-		groupId: string;
+	type MoveList = {
+		id: string;
+		groupID?: string;
 	};
-	type MoveListInGroup = MoveListOutGroup;
 }
