@@ -73,7 +73,7 @@ const login = async () => {
 	btnLoading.value = true;
 	await formRef.value?.validate(async err => {
 		if (!err) {
-			const { code, data } = await loginApi({ ...form, remember: rememberMe.value });
+			const { code, data, msg } = await loginApi({ ...form, remember: rememberMe.value });
 			if (code === 200) {
 				message.success("登录成功!");
 				localStorage.setItem("token", data.token);
@@ -86,6 +86,8 @@ const login = async () => {
 					userStore.setLoginForm({ email: "", password: "" });
 				}
 				router.push("/");
+			} else {
+				message.error(msg);
 			}
 		}
 	});

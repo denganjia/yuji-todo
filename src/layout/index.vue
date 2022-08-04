@@ -9,6 +9,7 @@
 			</n-layout-sider>
 			<n-layout-content>
 				<!-- <content-vue></content-vue> -->
+				<router-view></router-view>
 			</n-layout-content>
 		</n-layout>
 	</n-layout>
@@ -19,6 +20,7 @@ import AsideVue from "./components/Asider.vue";
 // import ContentVue from "./components/Content.vue";
 import HeaderVue from "./components/Header.vue";
 import { ref, CSSProperties } from "vue";
+
 const sideWidth = ref(200);
 const resize = (val: number) => {
 	sideWidth.value = val;

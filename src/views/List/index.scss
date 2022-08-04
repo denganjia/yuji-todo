@@ -1,0 +1,39 @@
+.main-box {
+	padding: 40px 50px ;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	transition: all 0.3s;
+	height: 100%;
+	box-sizing: border-box;
+}
+.body {
+	position: relative;
+	z-index: 2;
+}
+.header {
+	color: #fff;
+	font-weight: 900;
+	font-size: 24px;
+}
+
+.desc {
+	color: #fff;
+}
+
+.content {
+	width: 100%;
+	height: calc(100vh - 70px - 25px - 65px - 34px - 56px);
+	margin: 15px 0 10px;
+}
+
+.provider {
+	background-color: rgba($color: #000000, $alpha: 0.1);
+	width: 100%;
+	height: 100vh;
+	position: absolute;
+	border-top-left-radius: 10px;
+	z-index: 1;
+	left: 0;
+	top: 0;
+}

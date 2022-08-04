@@ -12,7 +12,12 @@
 			<div class="no-drag header-action">
 				<n-space :size="5" align="center" :wrap-item="false">
 					<n-dropdown trigger="hover" :options="option" :show-arrow="true" @select="select">
-						<n-avatar :size="30" round src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"> </n-avatar>
+						<n-avatar
+							:size="30"
+							round
+							:src="userStore.user.avatar ?? 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'"
+						>
+						</n-avatar>
 					</n-dropdown>
 					<n-button quaternary size="small">
 						<template #icon>
@@ -70,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { Square, Copy, Search, SettingTwo, Close, Minus, Logout } from "@icon-park/vue-next";
+import { Square, Copy, Search, SettingTwo, Close, Minus, Logout, User } from "@icon-park/vue-next";
 import { DropdownOption } from "naive-ui";
 import { ref } from "vue";
 import { renderIcon } from "@/utils";
@@ -81,7 +86,11 @@ import { logoutApi } from "@/apis";
 const userStore = useUserStore();
 const router = useRouter();
 //头像下拉菜单
-const option: DropdownOption[] = [{ label: "注销登录", key: "logout", icon: renderIcon(Logout) }];
+const option: DropdownOption[] = [
+	{ label: "个人信息设置", key: "set-user-info", icon: renderIcon(User) },
+	{ type: "divider", key: "divider1" },
+	{ label: "注销登录", key: "logout", icon: renderIcon(Logout) },
+];
 // 下拉选择
 const select = (key: string) => {
 	if (key === "logout") {

@@ -6,6 +6,7 @@ const routes: RouteRecordRaw[] = [
 		path: "/",
 		component: Layout,
 		name: "layout",
+		children: [{ path: "list", name: "list", component: () => import("@/views/List/index.vue") }],
 	},
 	{
 		path: "/login",
@@ -20,8 +21,17 @@ export const router = createRouter({
 	strict: true,
 });
 
-router.beforeEach(() => {
+router.beforeEach((to, from, next) => {
 	window.$loadingBar.start();
+	if (to.name === "login") {
+		next();
+	} else {
+		if (localStorage.getItem("token")) {
+			next();
+		} else {
+			next("/login");
+		}
+	}
 });
 router.afterEach(() => {
 	window.$loadingBar.finish();

@@ -1,6 +1,6 @@
 <template>
 	<div class="asider-content">
-		<MenuVue ref="menuRef" />
+			<MenuVue ref="menuRef" />
 		<div class="resize" @mousedown="mouseDown"></div>
 		<div class="footer">
 			<div class="footer_btn" v-if="!showAdd">
@@ -83,11 +83,14 @@ const addGroupOrList = async () => {
 	showAdd.value = false;
 };
 
+// footer width
+const footerWidth = ref(200);
 // 侧边栏拖动
 const emits = defineEmits<{ (e: "resize", val: number): void }>();
 const mouseMove = (e: MouseEvent) => {
 	if (e.x <= 400 && e.x >= 200) {
 		emits("resize", e.x);
+		footerWidth.value = e.x;
 	}
 };
 const mouseDown = () => {
@@ -125,6 +128,7 @@ const mouseDown = () => {
 		justify-content: space-between;
 		padding: 3px;
 		box-sizing: border-box;
+		background-color: var(--n-color);
 		.footer_btn {
 			display: flex;
 			flex: 1;

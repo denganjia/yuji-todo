@@ -61,4 +61,16 @@ export namespace Menus {
 		id: string;
 		groupID?: string;
 	};
+
+	type List = {
+		name: string;
+		img: string | null;
+		icon: string | null;
+		id: string;
+		groupID: string | null;
+	};
+	type ListDetail = {
+		list: List;
+		todos: Partial<ToDos.Todo>[];
+	};
 }

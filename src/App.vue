@@ -10,7 +10,7 @@ IconProvider({
 </script>
 
 <template>
-	<n-config-provider :locale="zhCN" :date-local="dateZhCN">
+	<n-config-provider :locale="zhCN" :date-local="dateZhCN" :theme-overrides="{ common: { fontWeightStrong: '600' } }">
 		<n-dialog-provider>
 			<n-message-provider>
 				<n-notification-provider>
@@ -25,10 +25,4 @@ IconProvider({
 </template>
 
 <style>
-body {
-	/* height: 100vh; */
-}
-#app {
-	/* height: 100%; */
-}
 </style>

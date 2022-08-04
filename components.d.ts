@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AddTodo: typeof import('./src/components/AddTodo.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NButton: typeof import('naive-ui')['NButton']
     NButtonGroup: typeof import('naive-ui')['NButtonGroup']
@@ -29,7 +30,11 @@ declare module '@vue/runtime-core' {
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NNotificationProvider: typeof import('naive-ui')['NNotificationProvider']
     NPopover: typeof import('naive-ui')['NPopover']
+    NScrollbar: typeof import('naive-ui')['NScrollbar']
+    NScrollBar: typeof import('naive-ui')['NScrollBar']
     NSpace: typeof import('naive-ui')['NSpace']
+    NThing: typeof import('naive-ui')['NThing']
+    NTooltip: typeof import('naive-ui')['NTooltip']
     Provider: typeof import('./src/components/Provider.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
