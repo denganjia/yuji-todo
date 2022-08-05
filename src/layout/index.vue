@@ -32,7 +32,7 @@ const sideStyle: CSSProperties = {
 
 <style scoped lang="scss">
 .n-layout {
-	height: 100%;
+	// height: 100%;
 	transition: min-width 0s, max-width 0s;
 }
 </style>

@@ -35,6 +35,11 @@ export namespace ToDos {
 		desc?: string;
 		finished: boolean;
 		endTime: string;
+		listID: string;
+		onDay: boolean;
+		star: boolean;
+		endTime: string;
+		id: string;
 	};
 }
 
@@ -71,6 +76,6 @@ export namespace Menus {
 	};
 	type ListDetail = {
 		list: List;
-		todos: Partial<ToDos.Todo>[];
+		todos: ToDos.Todo[];
 	};
 }

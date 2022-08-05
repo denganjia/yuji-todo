@@ -28,3 +28,8 @@ export function addGroupApi(data: Menus.AddGroup) {
 export function moveListApi(data: Menus.MoveList) {
 	return PUT({ url: "/menu/move-list", data });
 }
+
+
+export function getListDetailApi(params: Pick<Menus.List, "id">) {
+	return GET<Menus.List>({ url: "/menu/list-detail", params });
+}

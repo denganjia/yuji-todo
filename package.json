@@ -18,6 +18,7 @@
     "axios": "^0.27.2",
     "dayjs": "^1.11.4",
     "electron-store": "^8.0.2",
+    "mitt": "^3.0.0",
     "pinia": "^2.0.17",
     "pinia-plugin-persistedstate": "^1.6.3",
     "unsplash-js": "^7.0.15",
