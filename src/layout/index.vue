@@ -8,8 +8,7 @@
 				<aside-vue @resize="resize"></aside-vue>
 			</n-layout-sider>
 			<n-layout-content>
-				<!-- <content-vue></content-vue> -->
-				<router-view></router-view>
+				<router-view> </router-view>
 			</n-layout-content>
 		</n-layout>
 	</n-layout>
@@ -17,10 +16,13 @@
 
 <script setup lang="ts">
 import AsideVue from "./components/Asider.vue";
-// import ContentVue from "./components/Content.vue";
 import HeaderVue from "./components/Header.vue";
 import { ref, CSSProperties } from "vue";
+import { getBgImg } from "@/apis";
+import { useGlobalStore } from "@/stores/globalStore";
 
+
+const GlobalStore = useGlobalStore();
 const sideWidth = ref(200);
 const resize = (val: number) => {
 	sideWidth.value = val;
@@ -28,11 +30,13 @@ const resize = (val: number) => {
 const sideStyle: CSSProperties = {
 	transition: "min-width 0s,max-width 0s",
 };
+getBgImg().then(res => {
+	GlobalStore.setBgImg(res.data);
+});
 </script>
 
 <style scoped lang="scss">
 .n-layout {
-	// height: 100%;
 	transition: min-width 0s, max-width 0s;
 }
 </style>

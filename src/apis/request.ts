@@ -44,8 +44,10 @@ serves.interceptors.response.use(
 		if (response) {
 			if (response.status === 403) {
 				window.$message.error("未登录或登录信息失效！");
-			} else {
+			} else if(response.data){
 				window.$message.error(response.data.message.join(""));
+			}else{
+				window.$message.error(response.statusText)
 			}
 		} else {
 			window.$message.error("请求超时");

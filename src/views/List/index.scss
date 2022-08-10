@@ -1,12 +1,12 @@
 .main-box {
-	padding: 40px 50px;
+	padding: 40px 50px 0px;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	transition: all 0.3s;
 	height: 100%;
 	box-sizing: border-box;
-	background-color: antiquewhite;
+	// background-color: antiquewhite;
 }
 .body {
 	position: relative;
@@ -37,4 +37,8 @@
 	z-index: 1;
 	left: 0;
 	top: 0;
+}
+
+.footer {
+	height: 40px;
 }

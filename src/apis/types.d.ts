@@ -40,6 +40,7 @@ export namespace ToDos {
 		star: boolean;
 		endTime: string;
 		id: string;
+		[key: string]: any;
 	};
 }
 
@@ -73,6 +74,7 @@ export namespace Menus {
 		icon: string | null;
 		id: string;
 		groupID: string | null;
+		type?: "itemOutside" | "itemInside" | "folder" | "task" | "finished" | "star" | "myDay";
 	};
 	type ListDetail = {
 		list: List;

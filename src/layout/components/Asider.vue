@@ -1,6 +1,6 @@
 <template>
 	<div class="asider-content">
-			<MenuVue ref="menuRef" />
+		<MenuVue ref="menuRef" />
 		<div class="resize" @mousedown="mouseDown"></div>
 		<div class="footer">
 			<div class="footer_btn" v-if="!showAdd">
@@ -18,7 +18,7 @@
 							</template>
 						</n-button>
 					</template>
-					<span> 创建组 </span>
+					<span> 添加分类 </span>
 				</n-popover>
 			</div>
 			<n-input

@@ -1,10 +1,14 @@
 <template>
-	<n-list-item @click="$emit('detail', item.id)" @contextmenu="handleContextMenu">
+	<n-list-item
+		@click="$emit('detail', item.id)"
+		@contextmenu="handleContextMenu"
+		style="margin-bottom: 5px; padding: 12px"
+	>
 		<template #prefix>
 			<n-button text @click="update({ id: item.id, finished: !item.finished })">
 				<template #icon>
 					<n-icon :size="18" @mouseenter="hover = true" @mouseleave="hover = false">
-						<Round theme="outline" v-if="!hover && !$props.item.finished"></Round>
+						<Round theme="outline" v-if="!hover && !item.finished"></Round>
 						<CheckOne theme="outline" v-else></CheckOne>
 					</n-icon>
 				</template>
@@ -19,7 +23,7 @@
 				</template>
 			</n-button>
 		</template>
-		<span :class="{ done: $props.item.finished }">{{ $props.item.title }}</span>
+		<span :class="{ done: item.finished }">{{ item.title }}</span>
 	</n-list-item>
 	<n-dropdown
 		placement="top-start"
@@ -51,20 +55,15 @@ const update = (item: any) => {
 type Props = {
 	item: ToDos.Todo;
 };
-type Emits = {
-	(e: "finish" | "star" | "detail", id: string, args?: { finished?: boolean; star?: boolean }): void;
-	(e: "delete", id: string): void;
-};
 // props
 const props = defineProps<Props>();
 // hover状态改变prefix图标
 const hover = ref(false);
-// emit事件
-const emits = defineEmits<Emits>();
+
 // 是否已存在于 我的一天
 const inMyDay = props.item.onDay;
 // 当前页面是不是 我的一天
-const isMyDay = route.fullPath.includes("my-day");
+const isMyDay = route.params.type === "myDay";
 // 需要根据isMyDay和inMyDay改变的option
 const fakeOption = computed(() => {
 	if (isMyDay) {
@@ -111,11 +110,11 @@ const handleSelect = (key: string) => {
 		});
 	}
 	if (key === "add-my-day") {
-		// todoStore.addToMyDay(props.item.id, true);
+		emiter.emit("update-todo", { id: props.item.id, oneDay: true });
 		showDropdown.value = false;
 	}
 	if (key === "remove-my-day") {
-		// todoStore.removeFromMyDay(props.item.id, props.item.customerMenuID ? true : false);
+		emiter.emit("update-todo", { id: props.item.id, oneDay: false });
 		showDropdown.value = false;
 	}
 };

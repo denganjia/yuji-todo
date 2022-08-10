@@ -1,33 +1,27 @@
 <template>
 	<n-scrollbar :style="{ 'max-height': maxHeight }">
-		<n-list :bordered="true" style="--n-border-color: rgba(255, 255, 255, 0)">
-			<list-item v-for="item in unfinishedList" :item="item" ></list-item>
-			<n-button size="small" style="
-					--n-color: rgba(255, 255, 255, 0.8);
-					--n-color-focus: rgba(255, 255, 255, 1);
-					--n-color-hover: var(--n-color-focus);
-					--n-text-color-pressed: var(--n-text-color);
-					--n-text-color-hover: var(--n-text-color);
-					--n-text-color-focus: var(--n-text-color);
-					--n-border-hover: var(--n-border);
-					--n-border-pressed: var(--n-border);
-					--n-border-focus: var(--n-border);
-					--n-color-pressed: var(--n-color);
-					--n-ripple-color: var(--n-color);
-				" v-if="finishedList.length > 0" @click="showCollapse = !showCollapse">已完成 {{ finishedList.length }}
+		<n-list v-if="route.params.type !== 'finished'">
+			<list-item v-for="item in unfinishedList" :item="item"></list-item>
+			<n-button size="small" type="primary" v-if="finishedList.length > 0" @click="showCollapse = !showCollapse"
+				>已完成 {{ finishedList.length }}
 				<template #icon>
 					<n-icon>
-						<Right :style="{
-							transform: showCollapse ? 'rotate(90deg)' : 'rotate(0)',
-							transition: 'all 0.3s',
-						}" theme="outline"></Right>
+						<Right
+							:style="{
+								transform: showCollapse ? 'rotate(90deg)' : 'rotate(0)',
+								transition: 'all 0.3s',
+							}"
+							theme="outline"
+						></Right>
 					</n-icon>
 				</template>
 			</n-button>
 			<n-collapse-transition :show="showCollapse" style="margin-top: 3px">
-				<list-item v-for="item in finishedList" :item="item">
-				</list-item>
+				<list-item v-for="item in finishedList" :item="item" :key="item.id"> </list-item>
 			</n-collapse-transition>
+		</n-list>
+		<n-list v-if="route.params.type === 'finished'">
+			<list-item v-for="item in props.list" :item="item"></list-item>
 		</n-list>
 	</n-scrollbar>
 </template>
@@ -37,6 +31,9 @@ import { Right } from "@icon-park/vue-next";
 import ListItem from "./item.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { ToDos } from "@/apis/types";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 const showCollapse = ref(false);
 // props
 type Props = {
@@ -45,33 +42,12 @@ type Props = {
 const props = defineProps<Props>();
 // 已完成
 const finishedList = computed(() => {
-	return props.list.filter(item => item.finished).sort((a, b) =>
-		Number(b.star) - Number(a.star));
+	return props.list.filter(item => item.finished);
 });
 // 未完成
 const unfinishedList = computed(() => {
-	return props.list.filter(item => !item.finished).sort((a, b) =>
-		Number(b.star) - Number(a.star));
+	return props.list.filter(item => !item.finished);
 });
-
-// type Emits = {
-// 	(e: "change" | "star" | "detail", id: string): void;
-// 	(e: "delete", id: string): void;
-// };
-// // 自定义事件冒泡
-// const emits = defineEmits<Emits>();
-// const switchFinished = (id: string) => {
-// 	emits("change", id);
-// };
-// const star = (id: string) => {
-// 	emits("star", id);
-// };
-// const detail = (id: string) => {
-// 	emits("detail", id);
-// };
-// const deleteItem = (id: string) => {
-// 	emits("delete", id);
-// };
 //内容高度
 const innerHeight = ref(662);
 const maxHeight = computed(() => {

@@ -12,4 +12,9 @@
     "todos",
     "vfonts"
   ],
+  "editor.language.colorizedBracketPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
 }

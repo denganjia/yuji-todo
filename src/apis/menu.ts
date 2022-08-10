@@ -29,7 +29,10 @@ export function moveListApi(data: Menus.MoveList) {
 	return PUT({ url: "/menu/move-list", data });
 }
 
-
 export function getListDetailApi(params: Pick<Menus.List, "id">) {
 	return GET<Menus.List>({ url: "/menu/list-detail", params });
+}
+
+export function updateListApi(params: Partial<Pick<Menus.List, "id" | "name" | "icon">>) {
+	return PUT({ url: "/menu/update-list", data: params });
 }

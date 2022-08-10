@@ -31,7 +31,10 @@ import { getMenuApi, moveListApi } from "@/apis";
 import { onBeforeMount, reactive, ref, h, onMounted, computed } from "vue";
 import { renderIcon } from "@/utils";
 import { useRouter } from "vue-router";
+import { useMenuStore } from "../../stores/menuStore";
+import { emiter } from "@/utils";
 
+const menuStore = useMenuStore();
 const router = useRouter();
 const menuContent = ref<HTMLElement>();
 const message = useMessage();
@@ -41,8 +44,8 @@ const defaultActive = computed(() => {
 });
 const menu = ref<any>([]);
 //menu 更新
-const updateMenu = (key: string) => {
-	router.push({ name: "list", params: { id: key } });
+const updateMenu = (key: string, item: any) => {
+	router.push({ name: "list", params: { id: key, type: item.type } });
 };
 //取消默认事件
 const preventDefault = (e: DragEvent) => {
@@ -147,6 +150,7 @@ const sideOnDrop = async (e: DragEvent) => {
 //挂载前获取菜单
 onBeforeMount(async () => {
 	await joinMenu();
+	router.push({ name: "list", params: { id: menu.value[0].id, type: menu.value[0].type } });
 });
 onMounted(() => {});
 // 渲染菜单icon
@@ -170,8 +174,9 @@ const renderMenuIcon = (menu: MenuOption) => {
 const joinMenu = async () => {
 	const { data } = await getMenuApi();
 	menu.value = data;
-	router.push({ name: "list", params: { id: data[0].id } });
+	menuStore.setMenu(data);
 };
+emiter.on("joinMenu", joinMenu);
 // 暴露出去
 defineExpose({
 	joinMenu,

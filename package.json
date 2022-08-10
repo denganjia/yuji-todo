@@ -21,7 +21,6 @@
     "mitt": "^3.0.0",
     "pinia": "^2.0.17",
     "pinia-plugin-persistedstate": "^1.6.3",
-    "unsplash-js": "^7.0.15",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },

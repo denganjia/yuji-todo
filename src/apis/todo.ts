@@ -10,7 +10,7 @@ export function getTodoListApi(params: { listId: string }) {
  * @param data
  * @returns
  */
-export function addTodoApi(data: { title: string; listID: string }) {
+export function addTodoApi(data: { title: string; listID: string; oneDay?: boolean; star?: boolean }) {
 	return POST({ url: "/todo/add-todo", data });
 }
 
