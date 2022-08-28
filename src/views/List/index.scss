@@ -3,10 +3,11 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	transition: all 0.3s;
+	transition: all 0.3s var(--n-bezier);
 	height: 100%;
 	box-sizing: border-box;
 	// background-color: antiquewhite;
+	user-select: none;
 }
 .body {
 	position: relative;

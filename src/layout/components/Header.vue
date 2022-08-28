@@ -30,21 +30,21 @@
 				<div class="divider"></div>
 				<div style="flex: none; display: flex; align-items: center">
 					<n-space :size="5">
-						<n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
-							<template #trigger>
-								<n-button quaternary size="small" @click="handleWindow('minimize')">
+						<!-- <n-popover trigger="hover" :delay="300" :show-arrow="false" style="padding: 5px">
+							<template #trigger> -->
+								<n-button quaternary size="small" @click="handleWindow('minimize')" :focusable="false">
 									<template #icon>
 										<n-icon>
 											<Minus></Minus>
 										</n-icon>
 									</template>
 								</n-button>
-							</template>
+							<!-- </template>
 							<span>最小化</span>
-						</n-popover>
-						<n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
-							<template #trigger>
-								<n-button quaternary size="small" @click="handleWindow('maximize')">
+						</n-popover> -->
+						<!-- <n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
+							<template #trigger> -->
+								<n-button quaternary size="small" @click="handleWindow('maximize')" :focusable="false">
 									<template #icon>
 										<n-icon>
 											<Square v-if="!isWindowMax" theme="outline"></Square>
@@ -52,21 +52,21 @@
 										</n-icon>
 									</template>
 								</n-button>
-							</template>
+							<!-- </template>
 							<span> {{ isWindowMax ? "向下还原" : "最大化" }} </span>
-						</n-popover>
-						<n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
-							<template #trigger>
-								<n-button quaternary size="small" @click="handleWindow('close')">
+						</n-popover> -->
+						<!-- <n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
+							<template #trigger> -->
+								<n-button quaternary size="small" @click="handleWindow('close')" :focusable="false">
 									<template #icon>
 										<n-icon>
 											<Close></Close>
 										</n-icon>
 									</template>
 								</n-button>
-							</template>
+							<!-- </template>
 							<span> 退出 </span>
-						</n-popover>
+						</n-popover> -->
 					</n-space>
 				</div>
 			</div>

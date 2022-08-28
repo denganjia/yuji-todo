@@ -1,17 +1,13 @@
 <template>
-	<div class="main-box" :style="{ backgroundImage: `url(${GlobalStore.bgImg[0]})` }">
+	<div class="main-box" :style="{ backgroundImage: `url(${listDetail.list.img ?? GlobalStore.bgImg[0]})` }">
 		<div class="provider" v-if="dark"></div>
 		<div class="body">
 			<div class="head">
 				<n-thing>
 					<template #avatar v-if="listDetail.list.icon || showEditTitle">
 						<n-button quaternary class="header" @click="iconClick" :focusable="false">
-							<!-- <template #icon> -->
-							<!-- <n-icon> -->
 							<span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>
 							<EmotionHappy v-else></EmotionHappy>
-							<!-- </n-icon>  -->
-							<!-- </template> -->
 						</n-button>
 					</template>
 					<template #header>
@@ -25,20 +21,17 @@
 							></n-input>
 							<span class="header" v-else @click="editTitle">{{ listDetail.list?.name }}</span>
 						</div>
-
-						<!-- <n-button quaternary v-else class="header" size="large" @click="editTitle">{{
-							listDetail.list?.name
-						}}</n-button> -->
 					</template>
 					<template #description>
 						<span class="desc" v-text="today()"></span>
 					</template>
 					<template #header-extra>
-						<n-button quaternary size="small" style="--n-icon-size: 24px">
-							<template #icon>
-								<n-icon :component="More" :size="24" color="#fff"></n-icon>
-							</template>
-						</n-button>
+						<ListOption @set-img="setImg" @rename="editTitle"
+							><n-button quaternary size="small" style="--n-icon-size: 24px">
+								<template #icon>
+									<n-icon :component="More" :size="24" color="#fff"></n-icon>
+								</template> </n-button
+						></ListOption>
 					</template>
 				</n-thing>
 			</div>
@@ -49,23 +42,25 @@
 				<AddTodo @add="addTodo" v-if="item.type !== 'finished'"></AddTodo>
 			</div>
 		</div>
-		<!-- <TodoDetail v-model:show="showDrawer"></TodoDetail> -->
+		<TodoDetail v-model:show="showTodoDetail"></TodoDetail>
 	</div>
 </template>
 
 <script setup lang="ts">
 import AddTodo from "@/components/AddTodo.vue";
+import TodoDetail from "@/components/TodoDetail/index.vue";
+import ListOption from "@/components/ListOption/index.vue";
 import { More, EmotionHappy } from "@icon-park/vue-next";
 import { useRoute, useRouter } from "vue-router";
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { getListDetailApi, addTodoApi, updateTodoApi, getTodoListApi, deleteTodoApi, updateListApi } from "@/apis";
 import { Menus } from "@/apis/types";
 import { InputInst, useMessage } from "naive-ui";
 import TodoList from "@/components/TodoList/index.vue";
 import { emiter } from "@/utils";
 import dayjs from "dayjs";
-import { useGlobalStore } from "../../stores/globalStore";
-import { useMenuStore } from "../../stores/menuStore";
+import { useGlobalStore } from "@/stores/globalStore";
+import { useMenuStore } from "@/stores/menuStore";
 
 const { ipcRenderer } = require("electron");
 const menuStore = useMenuStore();
@@ -73,6 +68,16 @@ const message = useMessage();
 const route = useRoute();
 const router = useRouter();
 const GlobalStore = useGlobalStore();
+
+//待办详情
+const showTodoDetail = ref(false);
+
+// 列表配置
+const setImg = (val: string) => {
+	if (val === listDetail.value.list.img) return;
+	updateListApi({ id: listDetail.value.list.id, img: val });
+	getListDetail();
+};
 
 //标题能否被修改
 const titleCanEdit = computed(() => {
@@ -85,20 +90,19 @@ const editTitle = () => {
 	if (!titleCanEdit.value) return;
 	titleCache.value = listDetail.value.list?.name;
 	showEditTitle.value = true;
-	// nextTick(() => {
-	// 	// inputRef.value?.select();
-	// });
 };
+//输入框失焦
 const inputBlur = () => {
-	if (titleCache.value !== listDetail.value.list.name) {
+	if (titleCache.value !== listDetail.value.list.name && titleCache.value.trim().length > 0) {
+		listDetail.value.list.name = titleCache.value;
 		updateListApi({ id: listDetail.value.list.id, name: titleCache.value }).then(() => {
-			getListDetail();
+			// getListDetail();
 			emiter.emit("joinMenu");
 		});
 	}
 	showEditTitle.value = false;
 };
-
+// 图标点击
 const iconClick = () => {
 	const iconInput = document.createElement("input");
 	iconInput.id = "icon-input";
@@ -108,12 +112,12 @@ const iconClick = () => {
 	iconInput.focus();
 	ipcRenderer.send("open-emoji");
 	iconInput.oninput = (e: Event) => {
-		const icon = (e.target as HTMLInputElement).value;
+		let icon = (e.target as HTMLInputElement).value;
 		if (icon.length > 0) {
-			console.log(icon);
-			// iconInput.remove();
+			if (icon == listDetail.value.list.icon || icon.includes(listDetail.value.list.icon ?? "null")) return;
+			listDetail.value.list.icon = icon;
 			updateListApi({ id: listDetail.value.list.id, icon }).then(() => {
-				getListDetail();
+				// getListDetail();
 				emiter.emit("joinMenu");
 			});
 		}
@@ -161,11 +165,13 @@ const listDetail = ref<Menus.ListDetail>({
 });
 
 const getTodoList = () => {
+	if (!item.value.id) return;
 	getTodoListApi({ listId: item.value.id as string }).then(({ data }) => {
 		listDetail.value.todos = data;
 	});
 };
 const getListDetail = () => {
+	if (!item.value.id) return;
 	getListDetailApi({ id: item.value.id as string }).then(({ data }) => {
 		listDetail.value.list = data;
 	});
@@ -195,6 +201,7 @@ watch(
 		getListDetail();
 		getTodoList();
 	},
+	{ immediate: true },
 );
 </script>
 

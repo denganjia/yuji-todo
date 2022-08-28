@@ -26,22 +26,25 @@
 					<span>
 						<n-button text type="primary">忘记密码?</n-button>
 						<n-divider vertical></n-divider>
-						<n-button text type="primary">没有账号?</n-button>
+
+						<n-button text type="primary" @click="showRegister = true">没有账号?</n-button>
 					</span>
 				</p>
 			</div>
 		</div>
 	</div>
+	<Register v-model:show="showRegister" @update-form="updateForm"></Register>
 </template>
 
 <script setup lang="ts">
-import ToolBar from "../../components/ToolBar.vue";
+import ToolBar from "@/components/ToolBar.vue";
 import loginBg from "@/assets/login_bg.png";
 import { FormRules, FormInst, useMessage } from "naive-ui";
 import { reactive, ref } from "vue";
 import { loginApi } from "@/apis";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
+import Register from "@/views/Register/index.vue";
 
 const userStore = useUserStore();
 const message = useMessage();
@@ -51,6 +54,10 @@ const form = reactive({
 	email: "",
 	password: "",
 });
+const updateForm = (val: { email: string; password: string }) => {
+	form.email = val.email;
+	form.password = val.password;
+};
 const rules: FormRules = {
 	email: [{ required: true, message: "请输入邮箱", trigger: ["input", "blur"] }],
 	password: [{ required: true, message: "请输入密码", trigger: ["input", "blur"] }],
@@ -59,6 +66,8 @@ const rules: FormRules = {
 //记住我
 const rememberMe = ref(false);
 
+//显示注册
+const showRegister = ref(false);
 //回显记住我操作
 if (userStore.rememberMe) {
 	rememberMe.value = true;
@@ -105,25 +114,31 @@ const login = async () => {
 	align-items: center;
 	box-sizing: border-box;
 	padding-bottom: 50px;
+
 	.title {
 		font-size: 24px;
 	}
+
 	.content-box {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 0 50px;
 	}
+
 	.left {
 		margin-right: 50px;
+
 		img {
 			width: 100%;
 			display: block;
 			margin: auto;
 		}
 	}
+
 	.login-box {
 		min-width: 250px;
+
 		.extra {
 			display: flex;
 			justify-content: space-between;

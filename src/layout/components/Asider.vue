@@ -7,7 +7,7 @@
 				<n-button block quaternary style="flex: 1" icon-placement="left" @click="add('list')"
 					>添加列表
 					<template #icon>
-						<Plus></Plus>
+						<AddFour></AddFour>
 					</template>
 				</n-button>
 				<n-popover trigger="hover" :delay="500" :show-arrow="false" placement="top" style="padding: 5px">
@@ -35,7 +35,7 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from "vue";
-import { CategoryManagement, Plus } from "@icon-park/vue-next";
+import { CategoryManagement, AddFour } from "@icon-park/vue-next";
 import { useMessage, InputInst } from "naive-ui";
 import { addListApi, addGroupApi } from "@/apis";
 import MenuVue from "./Menu.vue";
@@ -63,7 +63,7 @@ const inputBlur = () => {
 const menuRef = ref();
 // 添加列表名或组名
 const addGroupOrList = async () => {
-	if (inputValue.value.length > 0) {
+	if (inputValue.value.length > 0 && inputValue.value.trim().length > 0) {
 		let result: APIBaseResult | null;
 		const form = { name: inputValue.value };
 		if (currentAdd.value === "list") {
