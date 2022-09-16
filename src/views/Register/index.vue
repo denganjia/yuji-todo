@@ -34,7 +34,7 @@
 					<n-input type="password" placeholder="请输入密码" v-model:value="formModel.password"></n-input>
 				</n-form-item>
 				<n-form-item label=" ">
-					<n-button block type="primary" @click="register">立即注册</n-button>
+					<n-button block="block" type="primary" @click="register">立即注册</n-button>
 				</n-form-item>
 			</n-form>
 		</div>
