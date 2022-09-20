@@ -24,7 +24,7 @@
 				<p class="extra">
 					<n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
 					<span>
-						<n-button text type="primary">忘记密码?</n-button>
+						<n-button text="text" type="primary">忘记密码?</n-button>
 						<n-divider vertical></n-divider>
 
 						<n-button text type="primary" @click="showRegister = true">没有账号?</n-button>

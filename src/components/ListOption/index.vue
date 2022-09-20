@@ -13,13 +13,13 @@ const globalStore = useGlobalStore();
 
 const emit = defineEmits<{ (e: "setImg", val: string): void; (e: "rename"): void }>();
 const getImg = computed(() => {
-	return globalStore.bgImg.map(img =>
+	return globalStore.bgImg.map(item =>
 		h("img", {
-			src: img,
+			src: item.thumb,
 			width: 50,
 			style: { cursor: "pointer" },
 			onclick: () => {
-				emit("setImg", img);
+				emit("setImg", item.full);
 			},
 		}),
 	);

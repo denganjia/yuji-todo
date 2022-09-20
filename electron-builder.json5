@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "YourAppID",
+  "appId": "yuji.do-it",
   "asar": true,
   "directories": {
     "output": "release/${version}"
@@ -21,16 +21,26 @@
       {
         "target": "nsis",
         "arch": [
-          "x64"
+          "x64",
+          "ia32"
+        ]
+      },
+      {
+        "target": "portable",
+        "arch": [
+          "x64",
+          "ia32"
         ]
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
+    "artifactName": "愚记待办_${version}.${ext}",
+    "icon": "./public/icon.ico"
   },
   "nsis": {
     "oneClick": false,
     "perMachine": false,
     "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+    "deleteAppDataOnUninstall": false,
+    "runAfterFinish": false
   }
 }

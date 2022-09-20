@@ -35,7 +35,7 @@ const indexHtml = join(ROOT_PATH.dist, "index.html");
 async function createWindow() {
 	win = new BrowserWindow({
 		title: "Main window",
-		icon: join(ROOT_PATH.public, "favicon.ico"),
+		icon: join(ROOT_PATH.public, "icon.ico"),
 		width: 927,
 		height: 573,
 		minHeight: 573,
@@ -53,9 +53,9 @@ async function createWindow() {
 	});
 	Menu.setApplicationMenu(null);
 	if (app.isPackaged) {
-		win.loadFile(indexHtml);
+		await win.loadFile(indexHtml);
 	} else {
-		win.loadURL(url);
+		await win.loadURL(url);
 		// Open devTool if the app is not packaged
 		let vue_devtools_url = `C:\\Users\\admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\6.2.1_0`;
 		await session.defaultSession.loadExtension(vue_devtools_url);
@@ -63,10 +63,10 @@ async function createWindow() {
 	}
 
 	win.on("maximize", () => {
-		win.webContents.send("window-maxed", true);
+		win?.webContents.send("window-maxed", true);
 	});
 	win.on("unmaximize", () => {
-		win.webContents.send("window-maxed", false);
+		win?.webContents.send("window-maxed", false);
 	});
 
 	// Make all links open with the browser, not with the application
@@ -103,21 +103,21 @@ app.on("activate", () => {
 // 窗口事件处理
 // 最小化
 ipcMain.on("win-minimize", () => {
-	win.minimize();
+	win?.minimize();
 });
 // 最大化
 ipcMain.on("win-maximize", event => {
-	if (win.isMaximized()) {
-		win.unmaximize();
+	if (win?.isMaximized()) {
+		win?.unmaximize();
 		event.reply("window-maxed", false);
 	} else {
-		win.maximize();
+		win?.maximize();
 		event.reply("window-maxed", true);
 	}
 });
 // 关闭
 ipcMain.on("win-close", () => {
-	win.close();
+	win?.close();
 	app.quit();
 });
 
