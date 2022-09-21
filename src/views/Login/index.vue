@@ -27,7 +27,7 @@
 						<n-button text="text" type="primary">忘记密码?</n-button>
 						<n-divider vertical></n-divider>
 
-						<n-button text type="primary" @click="showRegister = true">没有账号?</n-button>
+						<n-button text type="primary" @click="toRegis">没有账号?</n-button>
 					</span>
         </p>
       </div>
@@ -64,7 +64,11 @@ const rules: FormRules = {
 
 //记住我
 const rememberMe = ref(false);
-
+//跳转注册
+const toRegis = ()=>{
+  showRegister.value = true
+  formRef.value?.restoreValidation()
+}
 //显示注册
 const showRegister = ref(false);
 //回显记住我操作
@@ -97,6 +101,8 @@ const login = async () => {
       } else {
         message.error(msg);
       }
+    } else {
+      btnLoading.value = false
     }
   });
   btnLoading.value = false;
