@@ -8,7 +8,7 @@ switch (import.meta.env.MODE) {
     axios.defaults.baseURL = "/api";
     break;
   case "production":
-    axios.defaults.baseURL = "http://www.chiyu.site/doit";
+    axios.defaults.baseURL = "http://www.chiyu.site/doit/api";
     break;
 }
 

@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && electron-builder"
+    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "build:vue": "vue-tsc --noEmit && vite build"
   },
   "engines": {
     "node": ">=14.17.0"
@@ -21,6 +22,7 @@
     "mitt": "^3.0.0",
     "pinia": "^2.0.17",
     "pinia-plugin-persistedstate": "^1.6.3",
+    "vite-plugin-importer": "^0.2.5",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },

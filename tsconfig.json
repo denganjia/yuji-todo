@@ -12,13 +12,19 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-		// 模块名到基于 baseUrl的路径映射的列表。
-		"paths": {
-			"@": ["src"],
-			"@/*": ["src/*"]
-		},
+    // 模块名到基于 baseUrl的路径映射的列表。
+    "paths": {
+      "@": [
+        "src"
+      ],
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
   "references": [
-    { "path": "./tsconfig.node.json" }
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {DEFAULT_ICON_CONFIGS, IconProvider} from "@icon-park/vue-next";
+import {DEFAULT_ICON_CONFIGS, IconProvider} from "@icon-park/vue-next/lib/runtime";
 import Provider from "@/components/Provider.vue";
 import {zhCN, dateZhCN} from "naive-ui";
 import {useTheme} from "@/stores/themeStore";
