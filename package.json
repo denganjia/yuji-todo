@@ -1,6 +1,6 @@
 {
   "name": "do-it",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "dist/electron/main/index.js",
   "description": "Todo List App",
   "author": "池鱼 <2270588502@qq.com>",
@@ -19,6 +19,7 @@
     "@icon-park/vue-next": "^1.4.2",
     "axios": "^0.27.2",
     "dayjs": "^1.11.4",
+    "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
     "electron-updater": "^5.2.1",
     "mitt": "^3.0.0",

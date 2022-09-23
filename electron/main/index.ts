@@ -1,6 +1,7 @@
 import {app, BrowserWindow, shell, ipcMain, session, Menu} from "electron";
 import {release} from "os";
 import {join} from "path";
+import log from 'electron-log'
 
 const {autoUpdater} = require("electron-updater")
 
@@ -167,13 +168,11 @@ autoUpdater.on('update-not-available', function () {
 autoUpdater.on('update-downloaded', () => {
   win?.webContents.send('update-downloaded')
   ipcMain.on('update-now', () => {
-    autoUpdater.quitAndInstall();
+    autoUpdater.quitAndInstall(false,true);
   });
 });
 
 
 const sendUpdateMessage = (msg: string) => {
-  // win?.webContents.send('message', msg);
-  console.log(msg)
-
+  log.log(msg)
 }

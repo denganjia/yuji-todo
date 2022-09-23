@@ -4,6 +4,10 @@
 {
   "appId": "yuji.do-it",
   "asar": true,
+  "publish": [{
+    provider: 'generic',
+    url: 'https://addert.oss-cn-chengdu.aliyuncs.com'
+  }],
   "directories": {
     "output": "release/${version}"
   },
