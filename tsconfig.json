@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "baseUrl": "./",
-    "strict": true,
+    "strict": false,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     // 模块名到基于 baseUrl的路径映射的列表。

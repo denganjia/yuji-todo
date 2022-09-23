@@ -25,13 +25,6 @@
           "ia32"
         ]
       },
-      {
-        "target": "portable",
-        "arch": [
-          "x64",
-          "ia32"
-        ]
-      }
     ],
     "artifactName": "愚记待办_${version}.${ext}",
     "icon": "./public/icon.ico"
@@ -42,5 +35,5 @@
     "allowToChangeInstallationDirectory": true,
     "deleteAppDataOnUninstall": false,
     "runAfterFinish": false
-  }
+  },
 }

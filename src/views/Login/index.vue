@@ -9,7 +9,11 @@
         <p class="title">欢迎使用</p>
         <n-form label-placement="left" :model="form" ref="formRef" :rules="rules">
           <n-form-item path="email">
-            <n-input placeholder="请输入邮箱" v-model:value="form.email"></n-input>
+            <n-input placeholder="请输入邮箱" v-model:value="form.email">
+              <template #prefix>
+                <n-icon :component="Mail"></n-icon>
+              </template>
+            </n-input>
           </n-form-item>
           <n-form-item path="password">
             <n-input
@@ -17,14 +21,18 @@
                 placeholder="请输入密码"
                 show-password-on="mousedown"
                 v-model:value="form.password"
-            ></n-input>
+            >
+              <template #prefix>
+                <n-icon :component="Key"></n-icon>
+              </template>
+            </n-input>
           </n-form-item>
           <n-button type="primary" block @click="login" :loading="btnLoading" :disabled="btnLoading">立即登录</n-button>
         </n-form>
         <p class="extra">
           <n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
           <span>
-						<n-button text="text" type="primary">忘记密码?</n-button>
+						<n-button text type="primary">忘记密码?</n-button>
 						<n-divider vertical></n-divider>
 
 						<n-button text type="primary" @click="toRegis">没有账号?</n-button>
@@ -37,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import {Mail, Key} from "@icon-park/vue-next";
 import ToolBar from "@/components/ToolBar.vue";
 import {FormRules, FormInst, useMessage} from "naive-ui";
 import {reactive, ref} from "vue";
@@ -65,9 +74,9 @@ const rules: FormRules = {
 //记住我
 const rememberMe = ref(false);
 //跳转注册
-const toRegis = ()=>{
-  showRegister.value = true
+const toRegis = () => {
   formRef.value?.restoreValidation()
+  showRegister.value = true
 }
 //显示注册
 const showRegister = ref(false);

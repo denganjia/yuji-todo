@@ -1,12 +1,11 @@
 import {rmSync} from "fs";
-import {join, resolve} from "path";
+import {resolve} from "path";
 import {defineConfig, Plugin, UserConfig} from "vite";
 import vue from "@vitejs/plugin-vue";
 import electron from "vite-plugin-electron";
 import pkg from "./package.json";
 import Components from "unplugin-vue-components/vite";
 import {NaiveUiResolver} from "unplugin-vue-components/resolvers";
-import usePluginImport from "vite-plugin-importer";
 
 rmSync("dist", {recursive: true, force: true}); // v14.14.0
 
@@ -28,11 +27,6 @@ export default defineConfig({
       },
       // Enables use of Node.js API in the Renderer-process
       renderer: {},
-    }),
-    usePluginImport({
-      libraryName: "@icon-park/vue-next",
-      libraryDirectory: "es/icons",
-      camel2DashComponentName: false
     })
   ],
   resolve: {
@@ -52,16 +46,6 @@ export default defineConfig({
       },
     },
   },
-  // build: {
-  //   outDir: 'dist',
-  //   assetsDir: 'assets',
-  //   target: 'es2020'
-  // },
-  // optimizeDeps: {
-  //   esbuildOptions: {
-  //     target: 'es2020'
-  //   }
-  // }
 });
 
 function withDebug(config: UserConfig): UserConfig {

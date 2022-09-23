@@ -46,5 +46,6 @@ declare module '@vue/runtime-core' {
     TodoDetail: typeof import('./src/components/TodoDetail/index.vue')['default']
     TodoList: typeof import('./src/components/TodoList/index.vue')['default']
     ToolBar: typeof import('./src/components/ToolBar.vue')['default']
+    UpdateProvider: typeof import('./src/components/UpdateProvider/index.vue')['default']
   }
 }
