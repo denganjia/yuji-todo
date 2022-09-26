@@ -1,7 +1,9 @@
 <template>
   <div class="main">
     <slot name="extra">
-      <div class="logo">✅ Logo</div>
+      <div class="logo">
+        <img src="/icon.png" height="25" width="25" alt="">
+      </div>
     </slot>
     <div class="operation">
       <n-space :size="5">

@@ -76,16 +76,18 @@ async function createWindow() {
   });
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  autoUpdater.checkForUpdatesAndNotify({title: '更新提示', body: '检测到新版本，是否立即下载'}).then((res: any) => {
-    console.log(res)
+app.whenReady().then(async () => {
+  await createWindow();
+  // autoUpdater.checkForUpdatesAndNotify({title: '更新提示', body: '检测到新版本，是否立即下载'}).then((res: any) => {
+  //   log.log(res)
+  // })
+  autoUpdater.checkForUpdates().then(res=>{
+    log.log(res)
+  }).catch(err=>{
+    log.error(err)
   })
 });
-//
-// app.on('ready', () => {
-//   handleUpdate()
-// })
+
 app.on("window-all-closed", () => {
   win = null;
   if (process.platform !== "darwin") app.quit();
@@ -137,7 +139,7 @@ ipcMain.on("open-emoji", () => {
 });
 //
 
-let feedUrl = "https://addert.oss-cn-chengdu.aliyuncs.com"
+let feedUrl = 'http://www.chiyu.site/doit/api/update'
 autoUpdater.setFeedURL(feedUrl)
 let message = {
   error: '检查更新出错',
@@ -145,8 +147,9 @@ let message = {
   updateAva: '检测到新版本，正在下载……',
   updateNotAva: '现在使用的就是最新版本，不用更新',
 };
-autoUpdater.on('error', function () {
-  sendUpdateMessage(message.error)
+autoUpdater.on('error', function (error, message) {
+  log.error(error)
+  log.error(message)
 });
 autoUpdater.on('checking-for-update', function () {
   sendUpdateMessage(message.checking)
@@ -160,10 +163,10 @@ autoUpdater.on('update-not-available', function () {
 });
 
 // 更新下载进度事件
-// autoUpdater.on('download-progress', function (progressObj) {
-//   win?.webContents.send('downloadProgress', progressObj)
-//   win?.setProgressBar(progressObj.percent / 100);
-// })
+autoUpdater.on('download-progress', function (progressObj) {
+  win?.webContents.send('downloadProgress', progressObj)
+  win?.setProgressBar(progressObj.percent / 100);
+})
 //更新下载成功
 autoUpdater.on('update-downloaded', () => {
   win?.webContents.send('update-downloaded')

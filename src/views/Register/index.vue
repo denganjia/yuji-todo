@@ -120,7 +120,9 @@ const getVerifyCode = () => {
         const {code, msg} = await getVerifyCodeApi({email: formModel.email});
         if (code === 200) {
           message.success("验证码发送成功！请查收");
+          countDown.value = true
         } else {
+          countDown.value = false
           message.error(msg);
         }
       }

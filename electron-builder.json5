@@ -3,10 +3,11 @@
  */
 {
   "appId": "yuji.do-it",
+  "productName": "愚记待办",
   "asar": true,
   "publish": [{
     provider: 'generic',
-    url: 'https://addert.oss-cn-chengdu.aliyuncs.com'
+    url: 'http://www.chiyu.site/doit/api/update'
   }],
   "directories": {
     "output": "release/${version}"
