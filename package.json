@@ -1,6 +1,6 @@
 {
   "name": "do-it",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/electron/main/index.js",
   "description": "Todo List App",
   "author": "池鱼 <2270588502@qq.com>",
