@@ -42,7 +42,7 @@ async function createWindow() {
     width: 927,
     height: 573,
     minHeight: 573,
-    minWidth: 927,
+    minWidth: 360,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -57,7 +57,7 @@ async function createWindow() {
   } else {
     await win.loadURL(url);
     // Open devTool if the app is not packaged
-    let vue_devtools_url = `C:\\Users\\admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\6.2.1_0`;
+    let vue_devtools_url = `C:\\Users\\admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\nhdogjmejiglipccpnnnanhbledajbpd\\6.4.4_2`;
     await session.defaultSession.loadExtension(vue_devtools_url);
     win.webContents.openDevTools();
   }
@@ -78,9 +78,6 @@ async function createWindow() {
 
 app.whenReady().then(async () => {
   await createWindow();
-  // autoUpdater.checkForUpdatesAndNotify({title: '更新提示', body: '检测到新版本，是否立即下载'}).then((res: any) => {
-  //   log.log(res)
-  // })
   autoUpdater.checkForUpdates().then(res=>{
     log.log(res)
   }).catch(err=>{

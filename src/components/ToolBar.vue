@@ -51,7 +51,7 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
 
 <style scoped lang="scss">
 .main {
-  height: 60px;
+  height: 48px;
   box-sizing: border-box;
   padding: 10px;
   position: absolute;
@@ -65,7 +65,6 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
   -webkit-app-region: drag;
 
   .logo {
-    width: 200px;
     height: 40px;
     margin-right: 10px;
     display: flex;

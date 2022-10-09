@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, computed,onBeforeMount,onMounted } from "vue";
+import { h, computed, onBeforeMount, onMounted } from "vue";
 import { useGlobalStore } from "@/stores/globalStore";
 import { NSpace } from "naive-ui";
 
@@ -46,25 +46,29 @@ const renderBgImg = () => {
 		),
 	]);
 };
-const options = [
-	{
-		label: "重命名列表",
-		key: "rename",
-	},
-	{
-		key: "backgroundImage",
-		type: "render",
-		render: renderBgImg,
-	},
-];
+const options = computed(() => {
+	return [
+		globalStore.currentMenu.type.includes("item")
+			? {
+					label: "重命名列表",
+					key: "rename",
+			  }
+			: {},
+		{
+			key: "backgroundImage",
+			type: "render",
+			render: renderBgImg,
+		},
+	];
+});
 const select = (key: string) => {
 	if (key === "rename") {
 		emit("rename");
 	}
 };
-onBeforeMount(()=>{
-	document.body.style.cursor = 'await'
-})
+onBeforeMount(() => {
+	document.body.style.cursor = "await";
+});
 </script>
 
 <style scoped lang="scss">

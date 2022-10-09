@@ -149,7 +149,7 @@ const register = () => {
 <style scoped lang="scss">
 .reg-main-box {
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 48px);
   position: absolute;
   left: 0;
   bottom: 0;

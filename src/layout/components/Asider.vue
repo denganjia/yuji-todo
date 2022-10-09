@@ -106,7 +106,7 @@ const mouseDown = () => {
 <style scoped lang="scss">
 .asider-content {
 	width: 100%;
-	height: calc(100vh - 60px);
+	height: calc(100vh - 48px);
 	position: relative;
 	box-sizing: border-box;
 	padding: 2px 2px 40px;

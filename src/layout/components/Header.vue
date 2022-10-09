@@ -2,13 +2,6 @@
   <div class="header-content">
     <div class="logo"><img src="/icon.png" height="25" width="25" alt=""></div>
     <div class="header">
-      <n-input class="no-drag" style="width: 200px" placeholder="搜索">
-        <template #prefix>
-          <n-icon>
-            <Search theme="outline"></Search>
-          </n-icon>
-        </template>
-      </n-input>
       <div class="no-drag header-action">
         <n-space :size="5" align="center" :wrap-item="false">
           <n-dropdown trigger="hover" :options="option" :show-arrow="true" @select="select">
@@ -114,7 +107,7 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
 
 <style scoped lang="scss">
 .header-content {
-  height: 60px;
+  height: 48px;
   box-sizing: border-box;
   background-color: #f5f5f5;
   padding: 10px;
@@ -124,7 +117,7 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
   align-items: center;
 
   .logo {
-    width: 160px;
+    // width: 160px;
     height: 40px;
     margin-right: 10px;
     display: flex;
@@ -133,7 +126,6 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
   }
 
   .header {
-    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -17,10 +17,9 @@
 <script setup lang="ts">
 import AsideVue from "./components/Asider.vue";
 import HeaderVue from "./components/Header.vue";
-import { ref, CSSProperties } from "vue";
+import { ref, CSSProperties, onMounted, onBeforeMount } from "vue";
 import { getBgImg } from "@/apis";
 import { useGlobalStore } from "@/stores/globalStore";
-
 
 const GlobalStore = useGlobalStore();
 const sideWidth = ref(200);
@@ -32,6 +31,25 @@ const sideStyle: CSSProperties = {
 };
 getBgImg().then(res => {
 	GlobalStore.setBgImg(res.data);
+});
+onBeforeMount(() => {
+	if (window.outerWidth < 770) {
+		sideWidth.value = 0;
+	}
+});
+onMounted(() => {
+	window.addEventListener("resize", (e: any) => {
+		if (e.target.outerWidth < 770) {
+			if (sideWidth.value !== 0) {
+				sideWidth.value = 0;
+			}
+		}
+		if (e.target.outerWidth > 770) {
+			if (sideWidth.value === 0) {
+				sideWidth.value = 200;
+			}
+		}
+	});
 });
 </script>
 
