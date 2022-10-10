@@ -3,7 +3,7 @@ import {release} from "os";
 import {join} from "path";
 import log from 'electron-log'
 
-const {autoUpdater} = require("electron-updater")
+import { autoUpdater } from "electron-updater";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -136,7 +136,7 @@ ipcMain.on("open-emoji", () => {
 });
 //
 
-let feedUrl = 'http://www.chiyu.site/doit/api/update'
+let feedUrl = 'http://www.chiyu.site/doit/api/update/'
 autoUpdater.setFeedURL(feedUrl)
 let message = {
   error: '检查更新出错',
