@@ -135,12 +135,10 @@ const menuItemProps = (option: MenuOption) => {
         e.stopPropagation();
         const {id, groupID} = JSON.parse(e.dataTransfer?.getData("text/plain") ?? "");
         if (groupID !== option.id) {
-          const {code, msg} = await moveListApi({id, groupID: option.id as string});
+          const {code} = await moveListApi({id, groupID: option.id as string});
           if (code === 200) {
             message.success("操作成功!");
             await joinMenu();
-          } else {
-            message.error(msg);
           }
         }
         document.getElementById(option.id as string)?.classList.remove("drop-active");
@@ -185,12 +183,10 @@ const menuItemProps = (option: MenuOption) => {
         e.stopPropagation();
         const {id, groupID} = JSON.parse(e.dataTransfer?.getData("text/plain") ?? "");
         if (groupID) {
-          const {code, msg} = await moveListApi({id, groupID: ""});
+          const {code} = await moveListApi({id, groupID: ""});
           if (code === 200) {
             message.success("操作成功!");
             await joinMenu();
-          } else {
-            message.error(msg);
           }
         }
         menuContent.value?.classList.remove("drop-active");
@@ -216,12 +212,10 @@ const sideOnDrop = async (e: DragEvent) => {
   const {id, groupID} = JSON.parse(e.dataTransfer?.getData("text/plain") ?? "");
 
   if (groupID) {
-    const {code, msg} = await moveListApi({id, groupID: ""});
+    const {code} = await moveListApi({id, groupID: ""});
     if (code === 200) {
       message.success("操作成功!");
       await joinMenu();
-    } else {
-      message.error(msg);
     }
   }
   (e.target as Element).classList.remove("drop-active");

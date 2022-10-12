@@ -1,4 +1,4 @@
-import {app, BrowserWindow, shell, ipcMain, session, Menu} from "electron";
+import {app, BrowserWindow, shell, ipcMain, session, Menu, nativeTheme} from "electron";
 import {release} from "os";
 import {join} from "path";
 import log from 'electron-log'
@@ -155,6 +155,14 @@ ipcMain.on('restore-window', (event) => {
   win.setSize(currentSize[0], currentSize[1])
   win.setMaximizable(true)
   win.setResizable(true)
+})
+
+//获取系统暗色模式
+ipcMain.on('get-system-theme', (event) => {
+  event.returnValue = nativeTheme.shouldUseDarkColors
+  nativeTheme.on('updated', event => {
+    win.webContents.send('change-system-theme',event.sender.shouldUseDarkColors)
+  })
 })
 
 let feedUrl = 'http://www.chiyu.site/doit/api/update/'

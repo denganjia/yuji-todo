@@ -182,7 +182,7 @@ const addTodo = async (title: string) => {
   if (!currentMenu.value.type.includes("currentMenu")) {
     listID = menuStore.getTaskId;
   }
-  const {code, msg} = await addTodoApi({
+  const {code} = await addTodoApi({
     title,
     listID: listID,
     oneDay: currentMenu.value.type === "myDay",
@@ -190,8 +190,6 @@ const addTodo = async (title: string) => {
   });
   if (code === 200) {
     getTodoList();
-  } else {
-    message.error(msg);
   }
 };
 

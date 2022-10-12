@@ -73,12 +73,10 @@ const addGroupOrList = async () => {
     } else {
       result = await addGroupApi(form);
     }
-    const {code, msg} = result;
+    const {code} = result;
     if (code === 200) {
       message.success("添加成功");
       await menuRef.value.joinMenu();
-    } else {
-      message.error(msg);
     }
   }
   inputValue.value = "";

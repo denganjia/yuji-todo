@@ -4,16 +4,31 @@ import Provider from "@/components/Provider.vue";
 import UpdateProvider from "@/components/UpdateProvider/index.vue"
 import {zhCN, dateZhCN} from "naive-ui";
 import {useTheme} from "@/stores/themeStore";
+import {computed, onBeforeMount} from "vue";
+
+const {ipcRenderer} = require("electron");
 
 const theme = useTheme()
+onBeforeMount(() => {
+  if (theme.themeType === 'auto') {
+    const shouldDark = ipcRenderer.sendSync('get-system-theme')
+    theme.setSystemTheme(shouldDark)
+    ipcRenderer.on('change-system-theme', (e, args) => {
+      theme.setSystemTheme(args)
+    })
+  }
+})
+const iconPrimary = computed(() => {
+  return theme.primaryColor
+})
 IconProvider({
   ...DEFAULT_ICON_CONFIGS,
   theme: "outline",
   strokeWidth: 2,
   colors: {
     twoTone: {
-      fill: theme.primary,
-      twoTone: theme.primary
+      fill: iconPrimary.value,
+      twoTone: iconPrimary.value
     },
     outline: {fill: "", background: ''},
     multiColor: {outStrokeColor: '', outFillColor: "", innerStrokeColor: '', innerFillColor: ''},
@@ -23,7 +38,8 @@ IconProvider({
 </script>
 
 <template>
-  <n-config-provider :locale="zhCN" :date-local="dateZhCN" :theme-overrides="{ common: { fontWeightStrong: '600' } }">
+  <n-config-provider :locale="zhCN" :date-local="dateZhCN"
+                     :theme-overrides="{ common: { fontWeightStrong: '600',primaryColor:theme.primaryColor} }">
     <n-dialog-provider>
       <n-message-provider>
         <n-notification-provider>

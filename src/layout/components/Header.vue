@@ -12,7 +12,7 @@
             >
             </n-avatar>
           </n-dropdown>
-          <n-button quaternary size="small">
+          <n-button quaternary size="small" @click="$router.push({name:'setting'})">
             <template #icon>
               <n-icon>
                 <SettingTwo theme="outline"></SettingTwo>

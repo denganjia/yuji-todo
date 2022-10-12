@@ -27,29 +27,31 @@ const serves = axios.create({
     "Cache-Control": "no-cache",
   },
 });
-
+// 请求前的处理
 serves.interceptors.request.use((config: AxiosRequestConfig) => {
   if (config.headers) {
     config.headers.token = localStorage.getItem("token") ?? "";
   }
   return config;
 });
-
+// 请求后的处理
 serves.interceptors.response.use(
   (res: AxiosResponse<{ code: number; data: any | any[]; msg: string }>) => {
+    if(res.data.code!==200){
+      window.$message.error(res.data.msg)
+    }
     return res.data;
   },
   (err: { response: AxiosResponse }) => {
     const {response} = err;
-    console.log(response)
     if (response) {
       if (response.status === 403) {
         window.$message.error("请先登录！");
         router.push('/login')
       } else if (response.data) {
-        window.$message.error(response.data.message.join(""));
-      } else {
-        window.$message.error(response.statusText)
+        if (Array.isArray(response.data.message)) {
+          window.$message.error(response.data.message.join(""));
+        }
       }
     } else {
       window.$message.error("请求超时");
@@ -154,8 +156,3 @@ export const DELETE = <T = any>(config: RequestConfig): Promise<APIBaseResult<T>
       });
   });
 };
-
-export const post = POST;
-export const get = GET;
-export const put = PUT;
-export const _delete = DELETE;

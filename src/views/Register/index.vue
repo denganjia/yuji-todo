@@ -1,6 +1,7 @@
 <template>
-  <div class="reg-main-box" v-if="show">
-    <n-button type="primary" @click="$emit('update:show', false)">去登录
+  <div class="reg-main-box">
+    <ToolBar></ToolBar>
+    <n-button type="primary" @click="$router.push({name:'login'})">去登录
       <template #icon>
         <n-icon :component="Back"></n-icon>
       </template>
@@ -51,12 +52,10 @@ import {reactive, ref} from "vue";
 import {CountdownProps, FormInst, FormRules, FormItemInst, useMessage} from "naive-ui";
 import {registerApi, getVerifyCodeApi} from "@/apis";
 import {Back} from "@icon-park/vue-next";
+import {useRouter} from "vue-router";
+import ToolBar from "@/components/ToolBar.vue";
 
-defineProps<{ show: boolean }>();
-const emits = defineEmits<{
-  (e: "update:show", val: boolean): void;
-  (e: "updateForm", val: { email: string; password: string }): void;
-}>();
+const router = useRouter()
 const message = useMessage();
 const formInst = ref<FormInst>();
 const emailInst = ref<FormItemInst>();
@@ -74,12 +73,17 @@ const formRules: FormRules = {
   email: [
     {
       required: true,
-      message: "请输入用户邮箱",
+      message: "请输入邮箱",
       trigger: "change",
       transform(value) {
         return value.trim();
       },
     },
+    {
+      type: 'email',
+      trigger: "change",
+      message: '请输入正确的邮箱'
+    }
   ],
   password: [
     {
@@ -116,13 +120,12 @@ const getVerifyCode = () => {
   emailInst.value?.validate({
     callback: async res => {
       if (!res) {
-        const {code, msg} = await getVerifyCodeApi({email: formModel.email});
+        const {code} = await getVerifyCodeApi({email: formModel.email});
         if (code === 200) {
           message.success("验证码发送成功！请查收");
           countDown.value = true
         } else {
           countDown.value = false
-          message.error(msg);
         }
       }
     },
@@ -132,13 +135,10 @@ const register = () => {
   formInst.value?.validate(async err => {
     if (!err) {
       const avatar = `https://api.multiavatar.com/${formModel.email}.png`;
-      const {code, msg} = await registerApi({...formModel, avatar});
+      const {code} = await registerApi({...formModel, avatar});
       if (code === 200) {
         message.success("注册成功");
-        emits("updateForm", {email: formModel.email, password: formModel.password});
-        emits("update:show", false);
-      } else {
-        message.error(msg);
+        router.push({name: 'login'})
       }
     }
   });
@@ -148,19 +148,22 @@ const register = () => {
 <style scoped lang="scss">
 .reg-main-box {
   width: 100%;
-  height: calc(100vh - 50px);
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  height: 100vh;
   background-color: #fff;
   box-sizing: border-box;
-  padding: 20px;
-  z-index: 10;
+  padding: 70px 20px 0;
+  background-image: url("@/assets/1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 
   .reg-form {
     max-width: 400px;
-    min-width: 360px;
-    margin: auto;
+    min-width: 280px;
+    margin: 20px auto 0;
+    padding: 30px 30px 0 20px;
+    border-radius: 8px;
+    backdrop-filter: blur(24px);
   }
 }
 </style>
