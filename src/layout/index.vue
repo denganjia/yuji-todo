@@ -1,5 +1,5 @@
 <template>
-	<n-layout>
+	<n-layout :style="{'--header-height':GlobalStore.headerHeight}">
 		<n-layout-header>
 			<header-vue></header-vue>
 		</n-layout-header>

@@ -51,7 +51,7 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
 
 <style scoped lang="scss">
 .main {
-  height: 48px;
+  height: 50px;
   box-sizing: border-box;
   padding: 10px;
   position: absolute;

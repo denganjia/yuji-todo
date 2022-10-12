@@ -1,5 +1,5 @@
 <template>
-  <div class="header-content">
+  <div class="header-content" v-if="showHeader">
     <div class="logo"><img src="/icon.png" height="25" width="25" alt=""></div>
     <div class="header">
       <div class="no-drag header-action">
@@ -23,8 +23,6 @@
         <div class="divider"></div>
         <div style="flex: none; display: flex; align-items: center">
           <n-space :size="5">
-            <!-- <n-popover trigger="hover" :delay="300" :show-arrow="false" style="padding: 5px">
-              <template #trigger> -->
             <n-button quaternary size="small" @click="handleWindow('minimize')" :focusable="false">
               <template #icon>
                 <n-icon>
@@ -32,11 +30,6 @@
                 </n-icon>
               </template>
             </n-button>
-            <!-- </template>
-            <span>最小化</span>
-          </n-popover> -->
-            <!-- <n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
-              <template #trigger> -->
             <n-button quaternary size="small" @click="handleWindow('maximize')" :focusable="false">
               <template #icon>
                 <n-icon>
@@ -45,11 +38,6 @@
                 </n-icon>
               </template>
             </n-button>
-            <!-- </template>
-            <span> {{ isWindowMax ? "向下还原" : "最大化" }} </span>
-          </n-popover> -->
-            <!-- <n-popover trigger="hover" :delay="500" :show-arrow="false" style="padding: 5px">
-              <template #trigger> -->
             <n-button quaternary size="small" @click="handleWindow('close')" :focusable="false">
               <template #icon>
                 <n-icon>
@@ -57,9 +45,6 @@
                 </n-icon>
               </template>
             </n-button>
-            <!-- </template>
-            <span> 退出 </span>
-          </n-popover> -->
           </n-space>
         </div>
       </div>
@@ -68,14 +53,16 @@
 </template>
 
 <script setup lang="ts">
-import {Square, Copy, Search, SettingTwo, Close, Minus, Logout, User} from "@icon-park/vue-next";
+import {Square, Copy, SettingTwo, Close, Minus, Logout, User} from "@icon-park/vue-next";
 import {DropdownOption} from "naive-ui";
 import {ref} from "vue";
 import {renderIcon} from "@/utils";
 import {useUserStore} from "@/stores/userStore";
 import {useRouter} from "vue-router";
 import {logoutApi} from "@/apis";
+import {useGlobalStore} from "@/stores/globalStore";
 
+const globalStore = useGlobalStore()
 const userStore = useUserStore();
 const router = useRouter();
 //头像下拉菜单
@@ -103,11 +90,23 @@ const isWindowMax = ref(false);
 ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
   isWindowMax.value = arg;
 });
+
+//置顶时不显示header
+const showHeader = ref(true)
+ipcRenderer.on('fix-top', () => {
+  showHeader.value = false
+  globalStore.setHeaderHeight('0px')
+})
+ipcRenderer.on('restore', () => {
+  showHeader.value = true
+  globalStore.setHeaderHeight('50px')
+})
+
 </script>
 
 <style scoped lang="scss">
 .header-content {
-  height: 48px;
+  height: var(--header-height);
   box-sizing: border-box;
   background-color: #f5f5f5;
   padding: 10px;

@@ -3,7 +3,7 @@ import {release} from "os";
 import {join} from "path";
 import log from 'electron-log'
 
-import { autoUpdater } from "electron-updater";
+import {autoUpdater} from "electron-updater";
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith("6.1")) app.disableHardwareAcceleration();
@@ -41,7 +41,7 @@ async function createWindow() {
     icon: join(ROOT_PATH.public, "icon.ico"),
     width: 927,
     height: 573,
-    minHeight: 573,
+    minHeight: 400,
     minWidth: 360,
     webPreferences: {
       nodeIntegration: true,
@@ -78,9 +78,9 @@ async function createWindow() {
 
 app.whenReady().then(async () => {
   await createWindow();
-  autoUpdater.checkForUpdates().then(res=>{
+  autoUpdater.checkForUpdates().then(res => {
     log.log(res)
-  }).catch(err=>{
+  }).catch(err => {
     log.error(err)
   })
 });
@@ -134,7 +134,28 @@ ipcMain.on("open-emoji", () => {
     app.showEmojiPanel();
   }
 });
-//
+let currentSize = [0, 0]
+// 置顶到窗口最上方
+ipcMain.on('fix-top', (event) => {
+  if (win?.isMaximized()) {
+    win?.unmaximize();
+    event.reply("window-maxed", false);
+  }
+  win.setAlwaysOnTop(true)
+  event.reply('fix-top')
+  currentSize = win.getSize()
+  win.setSize(360, 500)
+  win.setMaximizable(false)
+  win.setResizable(false)
+})
+// 窗口还原
+ipcMain.on('restore-window', (event) => {
+  win.setAlwaysOnTop(false)
+  event.reply('restore')
+  win.setSize(currentSize[0], currentSize[1])
+  win.setMaximizable(true)
+  win.setResizable(true)
+})
 
 let feedUrl = 'http://www.chiyu.site/doit/api/update/'
 autoUpdater.setFeedURL(feedUrl)
@@ -168,7 +189,7 @@ autoUpdater.on('download-progress', function (progressObj) {
 autoUpdater.on('update-downloaded', () => {
   win?.webContents.send('update-downloaded')
   ipcMain.on('update-now', () => {
-    autoUpdater.quitAndInstall(false,true);
+    autoUpdater.quitAndInstall(false, true);
   });
 });
 

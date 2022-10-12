@@ -57,7 +57,6 @@ const emits = defineEmits<{
   (e: "update:show", val: boolean): void;
   (e: "updateForm", val: { email: string; password: string }): void;
 }>();
-//2402225817@qq.com
 const message = useMessage();
 const formInst = ref<FormInst>();
 const emailInst = ref<FormItemInst>();
@@ -149,7 +148,7 @@ const register = () => {
 <style scoped lang="scss">
 .reg-main-box {
   width: 100%;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 50px);
   position: absolute;
   left: 0;
   bottom: 0;
@@ -159,7 +158,8 @@ const register = () => {
   z-index: 10;
 
   .reg-form {
-    width: 400px;
+    max-width: 400px;
+    min-width: 360px;
     margin: auto;
   }
 }
