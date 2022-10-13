@@ -1,5 +1,5 @@
 <template>
-  <div class="reg-main-box">
+  <div class="reg-main-box" :style="{'--n-head-color':isDark?'rgb(24,24,28)':'#f5f5f5','--n-text-color':isDark?'rgba(255,255,255,0.82)':'rgb(51,54,57)','--n-color':isDark?'rgb(16,16,20)':'#fff'}">
     <ToolBar></ToolBar>
     <n-button type="primary" @click="$router.push({name:'login'})">去登录
       <template #icon>
@@ -48,13 +48,16 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {CountdownProps, FormInst, FormRules, FormItemInst, useMessage} from "naive-ui";
 import {registerApi, getVerifyCodeApi} from "@/apis";
 import {Back} from "@icon-park/vue-next";
 import {useRouter} from "vue-router";
 import ToolBar from "@/components/ToolBar.vue";
+import {useTheme} from "@/stores/themeStore";
 
+const theme = useTheme()
+const isDark = computed(() => theme.systemTheme === 'dark')
 const router = useRouter()
 const message = useMessage();
 const formInst = ref<FormInst>();
@@ -149,14 +152,13 @@ const register = () => {
 .reg-main-box {
   width: 100%;
   height: 100vh;
-  background-color: #fff;
   box-sizing: border-box;
   padding: 70px 20px 0;
   background-image: url("@/assets/1.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
+  background-color: var(--n-color);
   .reg-form {
     max-width: 400px;
     min-width: 280px;

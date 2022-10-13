@@ -1,5 +1,6 @@
 <template>
-  <div class="main-box">
+  <div class="main-box"
+       :style="{'--n-color':isDark?'rgb(16,16,20)':'#fff','--n-text-color':isDark?'rgba(255,255,255,0.82)':'rgb(51,54,57)'}">
     <div class="fix-top">
       <HeaderVue :style="{'--header-height':globalStore.headerHeight}"></HeaderVue>
     </div>
@@ -26,7 +27,8 @@
           </n-radio-group>
         </n-descriptions-item>
         <n-descriptions-item label="主题色">
-          <n-color-picker v-model:value="primaryColor" placement="bottom-end" :to="false" size="small" :show-alpha="false"
+          <n-color-picker v-model:value="primaryColor" placement="bottom-end" :to="false" size="small"
+                          :show-alpha="false"
                           :swatches="[
       '#18A058',
       '#2080F0',
@@ -50,6 +52,9 @@ const globalStore = useGlobalStore()
 const theme = useTheme()
 const router = useRouter()
 
+const isDark = computed(() => {
+  return theme.systemTheme === 'dark'
+})
 const goBack = () => {
   router.back()
 }
@@ -85,6 +90,7 @@ const changeTheme = (e) => {
 <style scoped lang="scss">
 .main-box {
   height: 100vh;
+  background: var(--n-color);
 
   .fix-top {
     position: absolute;
@@ -100,8 +106,10 @@ const changeTheme = (e) => {
     height: 100px;
     box-sizing: border-box;
     backdrop-filter: blur(18px);
+
     .title {
       font-size: 24px;
+      color: var(--n-text-color);
     }
   }
 
@@ -111,7 +119,7 @@ const changeTheme = (e) => {
     margin: auto;
     padding: 0 30px;
     box-sizing: border-box;
-    overflow: auto;
+    overflow: hidden;
     height: calc(100vh - 100px - 37px);
   }
 }

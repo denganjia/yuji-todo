@@ -2,9 +2,9 @@
 import {DEFAULT_ICON_CONFIGS, IconProvider} from "@icon-park/vue-next";
 import Provider from "@/components/Provider.vue";
 import UpdateProvider from "@/components/UpdateProvider/index.vue"
-import {zhCN, dateZhCN} from "naive-ui";
+import {zhCN, dateZhCN, GlobalThemeOverrides, darkTheme} from "naive-ui";
 import {useTheme} from "@/stores/themeStore";
-import {computed, onBeforeMount} from "vue";
+import {computed, ComputedRef, onBeforeMount} from "vue";
 
 const {ipcRenderer} = require("electron");
 
@@ -32,14 +32,26 @@ IconProvider({
     },
     outline: {fill: "", background: ''},
     multiColor: {outStrokeColor: '', outFillColor: "", innerStrokeColor: '', innerFillColor: ''},
-    filled: {fill: '#63e2b7', background: "#63e2b7"}
+    filled: {fill: iconPrimary.value, background: iconPrimary.value}
   }
 });
+
+const themeOverrides: ComputedRef<GlobalThemeOverrides> = computed(() => {
+  return {
+    common: {
+      fontWeight: '600',
+      primaryColor: theme.primaryColor,
+      primaryColorHover: theme.primaryColorHover,
+      primaryColorPressed: theme.primaryColorPressed,
+      primaryColorSuppl: theme.primaryColorHover
+    }
+  }
+})
 </script>
 
 <template>
   <n-config-provider :locale="zhCN" :date-local="dateZhCN"
-                     :theme-overrides="{ common: { fontWeightStrong: '600',primaryColor:theme.primaryColor} }">
+                     :theme-overrides="themeOverrides" :theme="theme.systemTheme==='dark'?darkTheme:null">
     <n-dialog-provider>
       <n-message-provider>
         <n-notification-provider>

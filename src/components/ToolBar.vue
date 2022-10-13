@@ -55,7 +55,7 @@ ipcRenderer.on("window-maxed", (e: any, arg: boolean) => {
   box-sizing: border-box;
   padding: 10px;
   position: absolute;
-  background-color: #f5f5f5;
+  background-color: var(--n-head-color);
   top: 0;
   left: 0;
   width: 100%;

@@ -139,12 +139,17 @@ const clickoutside = () => {
 }
 
 .n-list-item {
-  background-color: rgba($color: #fff, $alpha: 0.9);
+  background-color: var(--n-color);
   border-radius: 3px;
   box-sizing: border-box;
-
+  opacity: 0.9;
+  transition: opacity 0.3s;
+  overflow: hidden;
+  :deep(.n-list-item__divider){
+    display: none;
+  }
   &:hover {
-    background-color: #fff;
+    opacity: 1;
   }
 
   :deep(.n-list-item__prefix) {

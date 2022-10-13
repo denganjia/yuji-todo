@@ -100,7 +100,9 @@ import dayjs from "dayjs";
 import {useGlobalStore} from "@/stores/globalStore";
 import {useMenuStore} from "@/stores/menuStore";
 import AsiderVue from "@/layout/components/Asider.vue"
+import {useTheme} from "@/stores/themeStore"
 
+const theme = useTheme()
 const {ipcRenderer} = require("electron");
 const menuStore = useMenuStore();
 const message = useMessage();
@@ -173,13 +175,15 @@ const today = () => {
   return `${date.month() + 1}月${date.date()}日,星期${weekDay[date.day()]}`;
 };
 
-const dark = ref(false);
+const dark = computed(()=>{
+  return theme.systemTheme === 'dark'
+});
 //添加待办
 const addTodo = async (title: string) => {
   let listID = currentMenu.value.id as string;
-  console.log(currentMenu.value.type.includes("currentMenu"));
+  console.log(currentMenu.value.type.includes("item"));
 
-  if (!currentMenu.value.type.includes("currentMenu")) {
+  if (!currentMenu.value.type.includes("item")) {
     listID = menuStore.getTaskId;
   }
   const {code} = await addTodoApi({

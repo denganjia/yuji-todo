@@ -21,7 +21,7 @@
     align-items: center;
     padding: 0 20px;
     box-sizing: border-box;
-
+    z-index: 2;
     .no-drag {
       -webkit-app-region: no-drag;
     }
@@ -52,9 +52,8 @@
 .provider {
   background-color: rgba($color: #000000, $alpha: 0.1);
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   position: absolute;
-  border-top-left-radius: 10px;
   z-index: 1;
   left: 0;
   top: 0;

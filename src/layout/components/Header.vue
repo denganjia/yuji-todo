@@ -1,5 +1,5 @@
 <template>
-  <div class="header-content" v-if="showHeader">
+  <div class="header-content" :style="{'--n-color':theme.systemTheme==='dark'?'rgb(24,24,28)':'#f5f5f5'}" v-if="showHeader">
     <div class="logo"><img src="/icon.png" height="25" width="25" alt=""></div>
     <div class="header">
       <div class="no-drag header-action">
@@ -61,7 +61,9 @@ import {useUserStore} from "@/stores/userStore";
 import {useRouter} from "vue-router";
 import {logoutApi} from "@/apis";
 import {useGlobalStore} from "@/stores/globalStore";
+import {useTheme} from "@/stores/themeStore";
 
+const theme = useTheme()
 const globalStore = useGlobalStore()
 const userStore = useUserStore();
 const router = useRouter();
@@ -108,7 +110,7 @@ ipcRenderer.on('restore', () => {
 .header-content {
   height: var(--header-height);
   box-sizing: border-box;
-  background-color: #f5f5f5;
+  background-color: var(--n-color);
   padding: 10px;
   -webkit-app-region: drag;
   display: flex;

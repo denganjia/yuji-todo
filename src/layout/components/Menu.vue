@@ -2,6 +2,7 @@
   <div
       class="menu-content"
       ref="menuContent"
+      :style="{'--primary-color':theme.primaryColor}"
       @dragover.self="preventDefault"
       @drop.self="sideOnDrop"
       @dragenter.self="ondragenter"
@@ -53,7 +54,9 @@ import {useRouter} from "vue-router";
 import {useMenuStore} from "@/stores/menuStore";
 import {emiter} from "@/utils";
 import {useGlobalStore} from "@/stores/globalStore";
+import {useTheme} from "@/stores/themeStore"
 
+const theme = useTheme();
 const globalStore = useGlobalStore();
 const menuStore = useMenuStore();
 const router = useRouter();
@@ -266,15 +269,16 @@ defineExpose({
 }
 
 :deep(.drop-active) {
-  outline: 1px solid #36ad6a;
+  outline: 1px solid var(--primary-color);
   border-radius: 3px;
-  box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.2);
+  //box-shadow: var(--box-shadow);
 }
 
 .drop-active {
-  outline: 1px solid #36ad6a;
+  outline: 1px solid var(--primary-color);
   border-radius: 3px;
-  box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.2);
+  //box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.2);
+  //box-shadow: var(--box-shadow);
 }
 
 :deep(.n-scrollbar) {

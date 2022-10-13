@@ -1,5 +1,6 @@
 <template>
-  <div class="main-box">
+  <div class="main-box"
+       :style="{'--n-head-color':isDark?'rgb(24,24,28)':'#f5f5f5','--n-text-color':isDark?'rgba(255,255,255,0.82)':'rgb(51,54,57)','--n-color':isDark?'rgb(16,16,20)':'#fff'}">
     <ToolBar></ToolBar>
     <div class="content-box">
       <div class="left" v-if="showLeft">
@@ -47,11 +48,14 @@
 import {Mail, Key} from "@icon-park/vue-next";
 import ToolBar from "@/components/ToolBar.vue";
 import {FormRules, FormInst, useMessage} from "naive-ui";
-import {onBeforeMount, onMounted, onUnmounted, reactive, ref} from "vue";
+import {computed, onBeforeMount, onMounted, onUnmounted, reactive, ref} from "vue";
 import {loginApi} from "@/apis";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/userStore";
+import {useTheme} from "@/stores/themeStore";
 
+const theme = useTheme()
+const isDark = computed(() => theme.systemTheme === 'dark')
 const userStore = useUserStore();
 const message = useMessage();
 const router = useRouter();
@@ -111,7 +115,7 @@ const login = async () => {
   btnLoading.value = true;
   await formRef.value?.validate(async err => {
     if (!err) {
-      const {code, data, msg} = await loginApi({...form, remember: rememberMe.value});
+      const {code, data} = await loginApi({...form, remember: rememberMe.value});
       if (code === 200) {
         message.success("登录成功!");
         localStorage.setItem("token", data.token);
@@ -147,9 +151,11 @@ const login = async () => {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-color: var(--n-color);
 
   .title {
     font-size: 24px;
+    color: var(--n-text-color);
   }
 
   .content-box {
@@ -161,7 +167,7 @@ const login = async () => {
 
   .left {
     margin-right: 50px;
-
+    flex: 2;
     img {
       width: 100%;
       display: block;
@@ -171,10 +177,11 @@ const login = async () => {
   }
 
   .login-box {
-    min-width: 210px;
+    flex: 1;
     backdrop-filter: blur(14px);
     border-radius: 6px;
     padding: 20px;
+    box-sizing: border-box;
 
     .extra {
       display: flex;
