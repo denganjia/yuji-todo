@@ -127,7 +127,7 @@ const login = async () => {
           userStore.remember(false);
           userStore.setLoginForm({email: "", password: ""});
         }
-        router.push("/");
+        await router.push("/");
       }
     } else {
       btnLoading.value = false;

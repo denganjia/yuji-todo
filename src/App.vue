@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {DEFAULT_ICON_CONFIGS, IconProvider} from "@icon-park/vue-next";
+import {DEFAULT_ICON_CONFIGS, IconProvider} from "@icon-park/vue-next/es/runtime";
 import Provider from "@/components/Provider.vue";
 import UpdateProvider from "@/components/UpdateProvider/index.vue"
 import {zhCN, dateZhCN, GlobalThemeOverrides, darkTheme} from "naive-ui";
 import {useTheme} from "@/stores/themeStore";
-import {computed, ComputedRef, onBeforeMount} from "vue";
+import {computed, ComputedRef, onBeforeMount, watch} from "vue";
 
 const {ipcRenderer} = require("electron");
 

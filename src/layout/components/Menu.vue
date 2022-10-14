@@ -48,7 +48,7 @@ import {
 } from "@icon-park/vue-next";
 import {MenuOption, useMessage} from "naive-ui";
 import {getMenuApi, moveListApi, deleteFolderApi, deleteListApi} from "@/apis";
-import {onBeforeMount, reactive, ref, h, computed, nextTick} from "vue";
+import {onBeforeMount, reactive, ref, h, computed, nextTick, onUnmounted} from "vue";
 import {renderIcon} from "@/utils";
 import {useRouter} from "vue-router";
 import {useMenuStore} from "@/stores/menuStore";
@@ -254,6 +254,9 @@ const joinMenu = async () => {
   menuStore.setMenu(data);
 };
 emiter.on("joinMenu", joinMenu);
+onUnmounted(() => {
+  emiter.off('joinMenu')
+})
 // 暴露出去
 defineExpose({
   joinMenu,

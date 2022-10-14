@@ -1,6 +1,6 @@
 {
   "name": "do-it",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "main": "dist/electron/main/index.js",
   "description": "待办软件",
   "author": "池鱼 <2270588502@qq.com>",

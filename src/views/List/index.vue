@@ -29,10 +29,14 @@
       <div class="head">
         <n-thing>
           <template #avatar v-if="listDetail.list.icon || showEditTitle">
-            <n-button quaternary class="header" @click="iconClick" :focusable="false">
+<!--            <n-button quaternary class="header" @click="iconClick" :focusable="false">-->
+<!--              <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>-->
+<!--              <EmotionHappy v-else></EmotionHappy>-->
+<!--            </n-button>-->
+            <span class="header" @click="iconClick">
               <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>
               <EmotionHappy v-else></EmotionHappy>
-            </n-button>
+            </span>
           </template>
           <template #header>
             <div style="height: 40px">
@@ -88,9 +92,17 @@
 import AddTodo from "@/components/AddTodo.vue";
 import TodoDetail from "@/components/TodoDetail/index.vue";
 import ListOption from "@/components/ListOption/index.vue";
-import {More, EmotionHappy, HamburgerButton, InternalExpansion, InternalReduction, Close,Minus} from "@icon-park/vue-next";
+import {
+  More,
+  EmotionHappy,
+  HamburgerButton,
+  InternalExpansion,
+  InternalReduction,
+  Close,
+  Minus
+} from "@icon-park/vue-next";
 import {useRouter} from "vue-router";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, onUnmounted, ref, watch} from "vue";
 import {getListDetailApi, addTodoApi, updateTodoApi, getTodoListApi, deleteTodoApi, updateListApi} from "@/apis";
 import {Menus} from "@/apis/types";
 import {InputInst, useMessage} from "naive-ui";
@@ -133,6 +145,9 @@ const editTitle = () => {
   if (!titleCanEdit.value) return;
   titleCache.value = listDetail.value.list?.name;
   showEditTitle.value = true;
+  nextTick(() => {
+    inputRef.value.focus()
+  })
 };
 //输入框失焦
 const inputBlur = () => {
@@ -175,7 +190,7 @@ const today = () => {
   return `${date.month() + 1}月${date.date()}日,星期${weekDay[date.day()]}`;
 };
 
-const dark = computed(()=>{
+const dark = computed(() => {
   return theme.systemTheme === 'dark'
 });
 //添加待办
@@ -235,6 +250,7 @@ emiter.on("delete-todo", async (e: any) => {
   await deleteTodoApi(e);
   // getTodoList();
 });
+
 watch(
     () => currentMenu.value,
     nValue => {
@@ -246,22 +262,28 @@ watch(
 );
 //监听屏幕缩小显示 drawer
 const showDrawerBtn = ref(false)
+const resizeListener = (e: any) => {
+  if (e.target.outerWidth < 771) {
+    if (!showDrawerBtn.value) {
+      showDrawerBtn.value = true
+    }
+  }
+  if (e.target.outerWidth > 771) {
+    if (showDrawerBtn.value) {
+      showDrawerBtn.value = false
+    }
+  }
+}
 onMounted(() => {
-  window.addEventListener('resize', (e: any) => {
-    if (e.target.outerWidth < 771) {
-      if (!showDrawerBtn.value) {
-        showDrawerBtn.value = true
-      }
-    }
-    if (e.target.outerWidth > 771) {
-      if (showDrawerBtn.value) {
-        showDrawerBtn.value = false
-      }
-    }
-  })
+  window.addEventListener('resize', resizeListener)
   if (window.outerWidth <= 771) {
     showDrawerBtn.value = true
   }
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', resizeListener);
+  emiter.off('update-todo');
+  emiter.off('delete-todo')
 })
 //
 const showDrawerMenu = ref(false)
@@ -283,7 +305,7 @@ const closeWindow = () => {
   GlobalStore.setHeaderHeight('50px')
 }
 //最小化
-const minWindow = ()=>{
+const minWindow = () => {
   ipcRenderer.send('win-minimize')
 }
 </script>

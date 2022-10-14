@@ -74,6 +74,7 @@ const primaryColor = computed({
   },
   set(v) {
     theme.setPrimaryColor(v)
+    location.reload()
   }
 })
 const changeTheme = (e) => {

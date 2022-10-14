@@ -15,7 +15,7 @@ export const useGlobalStore = defineStore("global-store", {
     setBgImg(payload: { thumb: string; full: string }[]) {
       this.bgImg = payload;
     },
-    setCurrentMenu(payload: { id: string; type: string }) {
+    setCurrentMenu(payload: { id: string; type: string } | null) {
       this.currentMenu = payload;
     },
     setHeaderHeight(h: string) {

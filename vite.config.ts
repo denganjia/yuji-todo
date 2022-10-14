@@ -6,6 +6,7 @@ import electron from "vite-plugin-electron";
 import pkg from "./package.json";
 import Components from "unplugin-vue-components/vite";
 import {NaiveUiResolver} from "unplugin-vue-components/resolvers";
+import usePluginImport from 'vite-plugin-importer'
 
 rmSync("dist", {recursive: true, force: true}); // v14.14.0
 
@@ -27,6 +28,11 @@ export default defineConfig({
       },
       // Enables use of Node.js API in the Renderer-process
       renderer: {},
+    }),
+    usePluginImport({
+      libraryName: '@icon-park/vue-next',
+      libraryDirectory: 'es/icons',
+      camel2DashComponentName: false // default: true,
     })
   ],
   resolve: {

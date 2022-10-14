@@ -15,13 +15,9 @@
       </n-button>
     </template>
     <template #suffix>
-      <n-button text>
-        <template #icon>
-          <n-icon @click="update({ id: item.id, star: !item.star })">
-            <Star :theme="item.star ? 'two-tone' : 'outline'" :strokeWidth="0"></Star>
-          </n-icon>
-        </template>
-      </n-button>
+      <n-icon class="pointer" @click="update({ id: item.id, star: !item.star })" :size="20">
+        <Star :theme="item.star ? 'two-tone' : 'outline'" :strokeWidth="0"></Star>
+      </n-icon>
     </template>
     <span :class="{ done: item.finished }">{{ item.title }}</span>
   </n-list-item>
@@ -45,9 +41,10 @@ import {Round, CheckOne, Star, DeleteFive, Sun} from "@icon-park/vue-next";
 import {renderIcon} from "@/utils";
 import {useRoute} from "vue-router";
 import {emiter} from "@/utils";
+import {useGlobalStore} from "@/stores/globalStore";
 
+const globalStore = useGlobalStore()
 const dialog = useDialog();
-const route = useRoute();
 
 const update = (item: any) => {
   emiter.emit("update-todo", item);
@@ -63,10 +60,12 @@ const hover = ref(false);
 // 是否已存在于 我的一天
 const inMyDay = props.item.onDay;
 // 当前页面是不是 我的一天
-const isMyDay = route.params.type === "myDay";
+const isMyDay = computed(() => {
+  return globalStore.currentMenu.type === 'myDay'
+});
 // 需要根据isMyDay和inMyDay改变的option
 const fakeOption = computed(() => {
-  if (isMyDay) {
+  if (isMyDay.value) {
     return {
       label: "从'我的一天'移除",
       key: "remove-my-day",
@@ -88,7 +87,7 @@ const fakeOption = computed(() => {
   }
 });
 // 右键展开
-const options = ref([
+const options = computed(()=>[
   fakeOption.value,
   {label: "divider", type: "divider"},
   {label: "删除任务", key: "delete", icon: renderIcon(DeleteFive), props: {style: {color: "red"}}},
@@ -145,9 +144,11 @@ const clickoutside = () => {
   opacity: 0.9;
   transition: opacity 0.3s;
   overflow: hidden;
-  :deep(.n-list-item__divider){
+
+  :deep(.n-list-item__divider) {
     display: none;
   }
+
   &:hover {
     opacity: 1;
   }
@@ -163,5 +164,9 @@ const clickoutside = () => {
 
 .done {
   text-decoration: line-through;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

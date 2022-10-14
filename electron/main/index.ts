@@ -161,7 +161,7 @@ ipcMain.on('restore-window', (event) => {
 ipcMain.on('get-system-theme', (event) => {
   event.returnValue = nativeTheme.shouldUseDarkColors
   nativeTheme.on('updated', event => {
-    win.webContents.send('change-system-theme',event.sender.shouldUseDarkColors)
+    win.webContents.send('change-system-theme', event.sender.shouldUseDarkColors)
   })
 })
 
@@ -197,7 +197,7 @@ autoUpdater.on('download-progress', function (progressObj) {
 autoUpdater.on('update-downloaded', () => {
   win?.webContents.send('update-downloaded')
   ipcMain.on('update-now', () => {
-    autoUpdater.quitAndInstall(false, true);
+    autoUpdater.quitAndInstall(true, true);
   });
 });
 
