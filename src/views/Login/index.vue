@@ -53,7 +53,9 @@ import {loginApi} from "@/apis";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/userStore";
 import {useTheme} from "@/stores/themeStore";
+import {useGlobalStore} from "@/stores/globalStore";
 
+const globalStore = useGlobalStore()
 const theme = useTheme()
 const isDark = computed(() => theme.systemTheme === 'dark')
 const userStore = useUserStore();
@@ -86,6 +88,7 @@ onBeforeMount(() => {
   if (window.outerWidth < 770) {
     showLeft.value = false;
   }
+  globalStore.setCurrentMenu(null)
 });
 onMounted(() => {
   window.addEventListener("resize", changeShowLeft);

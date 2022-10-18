@@ -197,7 +197,7 @@ autoUpdater.on('download-progress', function (progressObj) {
 autoUpdater.on('update-downloaded', () => {
   win?.webContents.send('update-downloaded')
   ipcMain.on('update-now', () => {
-    autoUpdater.quitAndInstall(true, true);
+    autoUpdater.quitAndInstall(false, true);
   });
 });
 

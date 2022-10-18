@@ -226,9 +226,12 @@ const sideOnDrop = async (e: DragEvent) => {
 //挂载前获取菜单
 onBeforeMount(async () => {
   await joinMenu();
+  // if (globalStore.currentMenu.id) return
+  //
+  if(!globalStore.currentMenu){
+    globalStore.setCurrentMenu({id: menu.value[0].id, type: menu.value[0].type});
+  }
   await router.push({name: "list"});
-  if (globalStore.currentMenu.id) return
-  globalStore.setCurrentMenu({id: menu.value[0].id, type: menu.value[0].type});
 });
 // 渲染菜单icon
 const renderMenuIcon = (menu: MenuOption) => {

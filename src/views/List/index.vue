@@ -28,18 +28,24 @@
     <div class="body">
       <div class="head">
         <n-thing>
-          <template #avatar v-if="listDetail.list.icon || showEditTitle">
-<!--            <n-button quaternary class="header" @click="iconClick" :focusable="false">-->
-<!--              <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>-->
-<!--              <EmotionHappy v-else></EmotionHappy>-->
-<!--            </n-button>-->
-            <span class="header" @click="iconClick">
-              <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>
-              <EmotionHappy v-else></EmotionHappy>
-            </span>
-          </template>
+          <!--          <template #avatar v-if="listDetail.list.icon || showEditTitle">-->
+          <!--            <n-button quaternary class="header" @click="iconClick" :focusable="false">-->
+          <!--              <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>-->
+          <!--              <EmotionHappy v-else></EmotionHappy>-->
+          <!--            </n-button>-->
+          <!--            <span class="header" @click="iconClick" v-click-out-side>-->
+          <!--              <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>-->
+          <!--              <EmotionHappy v-else></EmotionHappy>-->
+          <!--            </span>-->
+          <!--          </template>-->
           <template #header>
-            <div style="height: 40px">
+            <div style="height: 40px;display: flex" v-click-out-side="clickOutSide">
+              <template v-if="listDetail.list.icon || showEditTitle">
+                <span class="header" @click="iconClick">
+                <span v-if="listDetail.list.icon">{{ listDetail.list.icon }}</span>
+                <EmotionHappy v-else></EmotionHappy>
+              </span>
+              </template>
               <n-input
                   v-if="showEditTitle"
                   class="header"
@@ -113,6 +119,7 @@ import {useGlobalStore} from "@/stores/globalStore";
 import {useMenuStore} from "@/stores/menuStore";
 import AsiderVue from "@/layout/components/Asider.vue"
 import {useTheme} from "@/stores/themeStore"
+import {vClickOutSide} from "@/utils/directives";
 
 const theme = useTheme()
 const {ipcRenderer} = require("electron");
@@ -157,8 +164,14 @@ const inputBlur = () => {
       emiter.emit("joinMenu");
     });
   }
-  showEditTitle.value = false;
 };
+//点击外部的触发事件
+const clickOutSide = () => {
+  console.log('...')
+  if (showEditTitle.value) {
+    showEditTitle.value = false;
+  }
+}
 // 图标点击
 const iconClick = () => {
   const iconInput = document.createElement("input");

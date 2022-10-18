@@ -79,9 +79,7 @@ const select = (key: string) => {
     logoutApi().then(() => {
       router.push("/login");
       userStore.logout();
-      globalStore.setCurrentMenu(null)
     });
-
   }
 };
 // 窗口事件处理
