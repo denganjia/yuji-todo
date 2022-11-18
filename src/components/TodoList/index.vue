@@ -1,7 +1,7 @@
 <template>
 	<n-scrollbar :style="{ 'max-height': maxHeight }">
 		<n-list v-if="route.params.type !== 'finished'">
-			<list-item v-for="item in unfinishedList" :item="item"></list-item>
+			<list-item v-for="item in unfinishedList" :key="item.id" :item="item"></list-item>
 			<n-button size="small" type="primary" v-if="finishedList.length > 0" @click="showCollapse = !showCollapse"
 				>已完成 {{ finishedList.length }}
 				<template #icon>
@@ -21,7 +21,7 @@
 			</n-collapse-transition>
 		</n-list>
 		<n-list v-if="route.params.type === 'finished'">
-			<list-item v-for="item in props.list" :item="item"></list-item>
+			<list-item v-for="item in props.list" :key="item.id" :item="item"></list-item>
 		</n-list>
 	</n-scrollbar>
 </template>

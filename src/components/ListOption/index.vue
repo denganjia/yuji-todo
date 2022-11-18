@@ -1,17 +1,19 @@
 <template>
-	<n-dropdown :options="options" trigger="click" placement="bottom" @select="select">
+	<n-dropdown :options="options" trigger="hover" placement="bottom" @select="select" :node-props="nodeProps">
 		<slot></slot>
 	</n-dropdown>
 </template>
 
 <script setup lang="ts">
-import { h, computed, onBeforeMount, onMounted } from "vue";
+import { h, computed, onBeforeMount } from "vue";
 import { useGlobalStore } from "@/stores/globalStore";
-import { NSpace } from "naive-ui";
+import { MenuNodeProps, NSpace } from "naive-ui";
 
 const globalStore = useGlobalStore();
 
-const emit = defineEmits<{ (e: "setImg", val: string): void; (e: "rename"): void }>();
+const emit = defineEmits<{ (e: "setImg", val: { thumb: string; full: string }): void; (e: "rename"): void }>();
+
+// 获取img
 const getImg = computed(() => {
 	return globalStore.bgImg.map(item =>
 		h("img", {
@@ -19,11 +21,15 @@ const getImg = computed(() => {
 			width: 50,
 			style: { cursor: "pointer" },
 			onclick: () => {
-				emit("setImg", item.full);
+				emit("setImg", item);
+			},
+			onload: () => {
+				document.body.style.cursor = "loading";
 			},
 		}),
 	);
 });
+//渲染选择背景项
 const renderBgImg = () => {
 	return h("div", { class: "bg-box", style: { width: "250px", padding: "0 14px" } }, [
 		h(
@@ -46,14 +52,14 @@ const renderBgImg = () => {
 		),
 	]);
 };
+// 下拉菜单options
 const options = computed(() => {
 	return [
-		globalStore.currentMenu.type.includes("item")
-			? {
-					label: "重命名列表",
-					key: "rename",
-			  }
-			: {},
+		{
+			label: "重命名列表",
+			key: "rename",
+			show: globalStore.currentMenu.type.includes("item"),
+		},
 		{
 			key: "backgroundImage",
 			type: "render",
@@ -66,6 +72,16 @@ const select = (key: string) => {
 		emit("rename");
 	}
 };
+// @ts-ignore
+const nodeProps: MenuNodeProps = () => {
+	return {
+		onClick(e: MouseEvent) {
+			e.stopImmediatePropagation();
+			e.stopPropagation();
+		},
+	};
+};
+
 onBeforeMount(() => {
 	document.body.style.cursor = "await";
 });

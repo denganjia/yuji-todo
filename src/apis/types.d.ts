@@ -36,7 +36,7 @@ export namespace ToDos {
 		finished: boolean;
 		endTime: string;
 		listID: string;
-		onDay: boolean;
+		oneDay: boolean;
 		star: boolean;
 		endTime: string;
 		id: string;
@@ -56,6 +56,8 @@ export namespace Menus {
 		img: null | string;
 		name: string;
 		type: "itemOutside" | "itemInside" | "folder";
+		icon: string | null | (() => void);
+		lists: MenuTree;
 	}[];
 
 	type RemoveList = {
@@ -70,7 +72,7 @@ export namespace Menus {
 
 	type List = {
 		name: string;
-		img: string | null;
+		img: string | null | { thumb: string; full: string };
 		icon: string | null;
 		id: string;
 		groupID: string | null;

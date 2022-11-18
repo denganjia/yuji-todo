@@ -3,6 +3,7 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
     "asider",
+    "clickoutside",
     "droparea",
     "emiter",
     "Fira",
