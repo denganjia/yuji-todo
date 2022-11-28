@@ -19,7 +19,29 @@
 				<Star :theme="item.star ? 'two-tone' : 'outline'" :strokeWidth="0"></Star>
 			</n-icon>
 		</template>
-		<span :class="{ done: item.finished }">{{ item.title }}</span>
+		<div>
+			<p :class="{ done: item.finished }">{{ item.title }}</p>
+			<p class="tag" v-if="!item.finished">
+				<NTag :bordered="false" type="warning" round size="small" v-if="item.endTime">
+					{{ getLocalTimeString(new Date(item.endTime)) }}
+					<template #icon>
+						<CalendarThree></CalendarThree>
+					</template>
+				</NTag>
+				<NTag
+					:bordered="false"
+					type="info"
+					round
+					size="small"
+					v-if="item.remindTime && item.remindTime > new Date().getTime()"
+				>
+					{{ getLocalTimeString(new Date(item.remindTime)) }}
+					<template #icon>
+						<AlarmClock></AlarmClock>
+					</template>
+				</NTag>
+			</p>
+		</div>
 	</n-list-item>
 	<n-dropdown
 		placement="top-start"
@@ -37,11 +59,20 @@
 import { ref, reactive, nextTick, computed } from "vue";
 import { ToDos } from "@/apis/types";
 import { useDialog } from "naive-ui";
-import { Round, CheckOne, Star, DeleteFive, SunOne } from "@icon-park/vue-next";
+import { Round, CheckOne, Star, DeleteFive, SunOne, AlarmClock, CalendarThree } from "@icon-park/vue-next";
 import { renderIcon } from "@/utils";
 import { emiter } from "@/utils";
 import { useGlobalStore } from "@/stores/globalStore";
+import calendar from "dayjs/plugin/calendar";
+import dayjs from "dayjs";
+import { useTheme } from "@/stores/themeStore";
+// dayjs.locale("zh-cn");
+dayjs.extend(calendar);
+const theme = useTheme();
 
+const getLocalTimeString = (time: number | Date) => {
+	return dayjs(time).calendar(dayjs());
+};
 const globalStore = useGlobalStore();
 const dialog = useDialog();
 
@@ -57,8 +88,6 @@ const props = defineProps<Props>();
 // hover状态改变prefix图标
 const hover = ref(false);
 
-// 是否已存在于 我的一天
-const inMyDay = computed(() => props.item.oneDay);
 // 当前页面是不是 我的一天
 const isMyDay = computed(() => {
 	return globalStore.currentMenu.type === "myDay";
@@ -88,8 +117,8 @@ const options: any = ref([
 	{
 		label: "删除任务",
 		key: "delete",
-		icon: renderIcon(DeleteFive, { color: "red" }),
-		props: { style: { color: "red" } },
+		icon: renderIcon(DeleteFive, { color: theme.systemTheme === "dark" ? "#e88080" : "#d03050" }),
+		props: { style: { color: theme.systemTheme === "dark" ? "#e88080" : "#d03050" } },
 	},
 ]);
 const position = reactive({ x: 0, y: 0 });
@@ -167,5 +196,8 @@ const clickoutside = () => {
 
 .pointer {
 	cursor: pointer;
+}
+.tag {
+	padding-top: 6px;
 }
 </style>

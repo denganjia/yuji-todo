@@ -31,6 +31,7 @@ const serves = axios.create({
 serves.interceptors.request.use((config: AxiosRequestConfig) => {
 	if (config.headers) {
 		config.headers.token = localStorage.getItem("token") ?? "";
+		config.headers["ws-key"] = localStorage.getItem("ws-key") ?? "";
 	}
 	return config;
 });

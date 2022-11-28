@@ -1,11 +1,7 @@
 <template>
 	<div class="main-box" :style="{ backgroundImage: `url(${backgroundImg})` }">
 		<div class="provider" v-if="dark"></div>
-		<p
-			class="header-extra"
-			v-if="showDrawerBtn"
-			:style="{ '-webkit-app-region': GlobalStore.headerHeight === '0px' ? 'drag' : 'no-drag' }"
-		>
+		<p class="header-extra" v-if="showDrawerBtn" :style="headerExtraStyle">
 			<n-button quaternary class="no-drag" @click="showDrawerMenu = true" size="small" style="--n-padding: 0 7px">
 				<template #icon>
 					<n-icon :component="HamburgerButton" :size="24" color="#fff"></n-icon>
@@ -98,10 +94,7 @@
 		>
 			<n-drawer-content
 				closable
-				:header-style="{
-					'-webkit-app-region': 'no-drag',
-					display: GlobalStore.headerHeight === '0px' ? 'none' : 'flex',
-				}"
+				:header-style="drawerHeaderStyle"
 				:body-content-style="{ padding: 0, height: 'auto', '--header-height': GlobalStore.headerHeight }"
 			>
 				<AsiderVue />
@@ -224,15 +217,13 @@ const dark = computed(() => {
 	return theme.systemTheme === "dark";
 });
 //添加待办
-const addTodo = async (title: string) => {
+const addTodo = async (content: any) => {
 	let listID = currentMenu.value.id as string;
-	console.log(currentMenu.value.type.includes("item"));
-
 	if (!currentMenu.value.type.includes("item")) {
 		listID = menuStore.getTaskId;
 	}
 	const { code } = await addTodoApi({
-		title,
+		...content,
 		listID: listID,
 		oneDay: currentMenu.value.type === "myDay",
 		star: currentMenu.value.type === "star",
@@ -354,7 +345,7 @@ const changeFullImage = (src: string | { thumb: string; full: string }) => {
 		backgroundImg.value = GlobalStore.bgImg[0].thumb;
 		img.src = GlobalStore.bgImg[0].full;
 	}
-	document.body.style.cursor = "wait";
+	document.body.style.cursor = "progress";
 	let id = setInterval(() => {
 		if (img.complete) {
 			clearInterval(id);
@@ -367,6 +358,20 @@ const changeFullImage = (src: string | { thumb: string; full: string }) => {
 // 监听 Drawer里的update-menu事件
 emiter.on("update-menu", () => {
 	showDrawerMenu.value = false;
+});
+
+//css样式 避免报错
+const headerExtraStyle = computed(() => {
+	return {
+		"-webkit-app-region": GlobalStore.headerHeight === "0px" ? "drag" : "no-drag",
+	};
+});
+
+const drawerHeaderStyle = computed(() => {
+	return {
+		"-webkit-app-region": "no-drag",
+		display: GlobalStore.headerHeight === "0px" ? "none" : "flex",
+	};
 });
 </script>
 

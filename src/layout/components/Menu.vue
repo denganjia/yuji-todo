@@ -163,7 +163,6 @@ const menuItemProps: any = (option: MenuOption) => {
 		return {
 			draggable: true,
 			ondragstart(e: DragEvent) {
-				console.log(e);
 				e.dataTransfer!.effectAllowed = "move";
 				e.dataTransfer?.setData("text/plain", JSON.stringify({ id: option.id as string, groupID: option.groupID }));
 			},

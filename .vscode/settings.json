@@ -8,9 +8,13 @@
     "emiter",
     "Fira",
     "Lato",
+    "Maximizable",
+    "persistedstate",
     "pinia",
     "sider",
     "todos",
+    "unmaximize",
+    "unplugin",
     "vfonts"
   ],
   "editor.language.colorizedBracketPairs": [

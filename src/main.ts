@@ -1,10 +1,10 @@
-import { createApp } from "vue";
+import {createApp} from "vue";
 import App from "./App.vue";
-import { router } from "@/routers/index";
+import {router} from "@/routers/index";
 // import './samples/node-api'
-import { createPersistedState } from "pinia-plugin-persistedstate";
+import {createPersistedState} from "pinia-plugin-persistedstate";
 
-import { createPinia } from "pinia";
+import {createPinia} from "pinia";
 
 const config = createPersistedState();
 const pinia = createPinia();
@@ -15,4 +15,22 @@ import "vfonts/Lato.css";
 import "vfonts/FiraCode.css";
 // icon-park
 import "@icon-park/vue-next/styles/index.css";
+// reset css
+import "@/assets/reset.css";
+// 配置dayjs中文
+import "dayjs/locale/zh-cn";
+import updateLocale from "dayjs/plugin/updateLocale";
+import dayjs from "dayjs";
+dayjs.extend(updateLocale);
+dayjs.updateLocale("zh-cn", {
+  calendar: {
+    lastDay: "[昨天]",
+    sameDay: "[今天]",
+    nextDay: "[明天]",
+    lastWeek: "[上周] dddd",
+    nextWeek: "[下周] dddd",
+    sameElse: "YYYY年MM月DD日",
+  },
+});
+dayjs.locale("zh-cn");
 createApp(App).use(router).use(pinia).mount("#app");

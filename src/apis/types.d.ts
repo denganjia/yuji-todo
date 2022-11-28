@@ -38,7 +38,7 @@ export namespace ToDos {
 		listID: string;
 		oneDay: boolean;
 		star: boolean;
-		endTime: string;
+		remindTime: number;
 		id: string;
 		[key: string]: any;
 	};

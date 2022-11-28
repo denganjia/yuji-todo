@@ -1,8 +1,7 @@
-import { app, BrowserWindow, shell, ipcMain, session, Menu, nativeTheme } from "electron";
+import { app, BrowserWindow, shell, ipcMain, session, Menu, nativeTheme, Tray, Notification } from "electron";
 import { release } from "os";
 import { join } from "path";
 import log from "electron-log";
-
 import { autoUpdater } from "electron-updater";
 
 // Disable GPU Acceleration for Windows 7
@@ -35,6 +34,7 @@ let win: BrowserWindow | null = null;
 const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${process.env["VITE_DEV_SERVER_PORT"]}`;
 const indexHtml = join(ROOT_PATH.dist, "index.html");
 
+let tray: Tray | null = null;
 async function createWindow() {
 	win = new BrowserWindow({
 		title: "Main window",
@@ -73,6 +73,36 @@ async function createWindow() {
 	win.webContents.setWindowOpenHandler(({ url }) => {
 		if (url.startsWith("https:")) shell.openExternal(url);
 		return { action: "deny" };
+	});
+
+	// win.on("close", e => {
+	// 	ipcMain.emit("close");
+	// });
+	//系统托盘图标
+	tray = new Tray(join(ROOT_PATH.public, "icon.ico"));
+
+	tray.setContextMenu(
+		Menu.buildFromTemplate([
+			{
+				label: "退出",
+				click: () => {
+					win.webContents.send("close");
+					win.destroy();
+				},
+			},
+		]),
+	);
+	tray.setToolTip("愚记待办");
+	tray.on("click", () => {
+		win.show();
+		win.focus();
+		win.setSkipTaskbar(false);
+	});
+
+	win.on("close", event => {
+		win.hide();
+		win.setSkipTaskbar(true);
+		event.preventDefault();
 	});
 }
 
@@ -128,7 +158,6 @@ ipcMain.on("win-maximize", event => {
 // 关闭
 ipcMain.on("win-close", () => {
 	win?.close();
-	app.quit();
 });
 
 // 打开emoji选择器
@@ -223,4 +252,23 @@ ipcMain.on("set-launch-with-windows", (event, args) => {
 			args: ["--openAsHidden"],
 		});
 	}
+});
+
+// 将时间戳转化为本地时间
+
+// 接收消息提示 notification
+ipcMain.on("notification", (event, args) => {
+	let option = {
+		title: args.title, // 通知标题
+		body: new Date(args.time).toLocaleString(), // 内容
+		icon: join(ROOT_PATH.public, "icon.ico"), // 图标
+		// href: "https://www.cnblogs.com/binglicheng/", // 地址
+	};
+	let notification = new Notification(option);
+	notification.show();
+	notification.on("click", () => {
+		win.show();
+		win.focus();
+		win.setSkipTaskbar(false);
+	});
 });
