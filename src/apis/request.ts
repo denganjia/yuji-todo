@@ -54,6 +54,9 @@ serves.interceptors.response.use(
 				if (Array.isArray(response.data.message)) {
 					window.$message.error(response.data.message.join(""));
 				}
+				if (response.data.msg) {
+					window.$message.error(response.data.msg);
+				}
 			}
 		} else {
 			window.$message.error("请求超时");
