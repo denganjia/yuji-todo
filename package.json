@@ -24,7 +24,7 @@
     "electron-updater": "^5.2.1",
     "mitt": "^3.0.0",
     "pinia": "^2.0.17",
-    "pinia-plugin-persistedstate": "^1.6.3",
+    "pinia-plugin-persistedstate": "^3.0.1",
     "vite-plugin-importer": "^0.2.5",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
