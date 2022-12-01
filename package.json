@@ -18,7 +18,7 @@
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
     "axios": "^0.27.2",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.6",
     "electron-log": "^4.4.8",
     "electron-store": "^8.0.2",
     "electron-updater": "^5.2.1",
