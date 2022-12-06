@@ -18,7 +18,7 @@ window["$notification"] = notification;
 window["$loadingBar"] = loadingBar;
 
 // socket 连接
-let socketUrl = import.meta.env.PROD ? "ws://www.chiyu.site/ws" : "ws://127.0.0.1";
+let socketUrl = import.meta.env.PROD ? "ws://www.chiyu.site/ws/" : "ws://127.0.0.1/";
 let socket: WebSocket;
 // 重新连接锁
 let lockReconnect = false;
@@ -70,6 +70,7 @@ const connectSocket = () => {
 connectSocket();
 
 ipcRenderer.on("close", () => {
+	lockReconnect = false;
 	socket.close(3982, localStorage.getItem("ws-key") ?? "");
 });
 onUnmounted(() => {
