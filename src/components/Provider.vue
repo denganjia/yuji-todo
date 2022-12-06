@@ -51,8 +51,7 @@ const heartbeat = () => {
 	clearTimeout(timeout);
 	interval = setInterval(() => {
 		let data = {
-			event: "events",
-			data: "ping",
+			event: "ping",
 		};
 		socket.send(JSON.stringify(data));
 		timeout = setTimeout(() => {
