@@ -29,8 +29,8 @@ const websocketOnMessage = (e: MessageEvent) => {
 	const data = JSON.parse(e.data);
 	if (data.event === "set-ws-key") {
 		localStorage.setItem("ws-key", data.data);
-	} else {
-		ipcRenderer.send("notification", data);
+	} else if (data.event === "notification") {
+		ipcRenderer.send("notification", data.data);
 	}
 };
 // 连接失败
