@@ -1,7 +1,6 @@
 import {createApp} from "vue";
 import App from "./App.vue";
-import {router} from "@/routers/index";
-// import './samples/node-api'
+import {router} from "@/routers";
 import {createPersistedState} from "pinia-plugin-persistedstate";
 
 import {createPinia} from "pinia";
@@ -17,10 +16,13 @@ import "vfonts/FiraCode.css";
 import "@icon-park/vue-next/styles/index.css";
 // reset css
 import "@/assets/reset.css";
+// 引入自定义指令
+import {vClickOutside} from "@/utils/directives";
 // 配置dayjs中文
 import "dayjs/locale/zh-cn";
 import updateLocale from "dayjs/plugin/updateLocale";
 import dayjs from "dayjs";
+
 dayjs.extend(updateLocale);
 dayjs.updateLocale("zh-cn", {
   calendar: {
@@ -33,4 +35,4 @@ dayjs.updateLocale("zh-cn", {
   },
 });
 dayjs.locale("zh-cn");
-createApp(App).use(router).use(pinia).mount("#app");
+createApp(App).use(router).use(pinia).directive('click-outside', vClickOutside).mount("#app");
