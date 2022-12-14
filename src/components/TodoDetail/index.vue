@@ -1,5 +1,5 @@
 <template>
-  <n-drawer v-model:show="show" width="350" @update:show="$emit('update:show', $event)" @after-leave="drawerClosed"
+  <n-drawer :show="show" width="350" @update:show="$emit('update:show', $event)" @after-leave="drawerClosed"
             style="--n-footer-padding:0">
     <n-drawer-content closable :native-scrollbar="false">
       <n-space vertical size="large">
